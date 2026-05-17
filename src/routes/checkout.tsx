@@ -57,7 +57,7 @@ function Checkout() {
       subtotal,
       delivery_fee: delivery,
       total,
-      payment_method: f.payment as "cash" | "cliq" | "bank",
+      payment_method: (f.payment === "bank" ? "bank_transfer" : f.payment) as "cash" | "cliq" | "bank_transfer",
     }).select("id,order_number").single();
     if (error || !order) { setLoading(false); toast.error(error?.message ?? "Error"); return; }
 
