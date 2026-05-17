@@ -7,6 +7,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { I18nProvider } from "@/lib/i18n";
+import { ThemeProvider } from "@/lib/theme";
+import { CartProvider } from "@/lib/cart";
 
 import appCss from "../styles.css?url";
 
@@ -72,11 +77,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "JABAL — سوق البناء الذكي | Smart Construction Marketplace" },
+      { name: "description", content: "JABAL — أكبر منصة رقمية لمواد البناء والخدمات الهندسية في الأردن. اطلب الإسمنت، الحديد، البلوك وأكثر بأقل من 30 ثانية." },
+      { name: "author", content: "JABAL" },
+      { property: "og:title", content: "JABAL — Smart Construction Marketplace" },
+      { property: "og:description", content: "Jordan's largest digital platform for construction materials & engineering services." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -113,7 +118,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <ThemeProvider>
+        <I18nProvider>
+          <CartProvider>
+            <TooltipProvider>
+              <Outlet />
+              <Toaster richColors position="top-center" />
+            </TooltipProvider>
+          </CartProvider>
+        </I18nProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
