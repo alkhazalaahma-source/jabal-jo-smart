@@ -80,11 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "JABAL — سوق البناء الذكي | Smart Construction Marketplace" },
       { name: "description", content: "JABAL — أكبر منصة رقمية لمواد البناء والخدمات الهندسية في الأردن. اطلب الإسمنت، الحديد، البلوك وأكثر بأقل من 30 ثانية." },
       { name: "author", content: "JABAL" },
-      { property: "og:title", content: "JABAL — Smart Construction Marketplace" },
-      { property: "og:description", content: "Jordan's largest digital platform for construction materials & engineering services." },
+      { property: "og:title", content: "JABAL — سوق البناء الذكي | Smart Construction Marketplace" },
+      { property: "og:description", content: "JABAL — أكبر منصة رقمية لمواد البناء والخدمات الهندسية في الأردن. اطلب الإسمنت، الحديد، البلوك وأكثر بأقل من 30 ثانية." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "JABAL — سوق البناء الذكي | Smart Construction Marketplace" },
+      { name: "twitter:description", content: "JABAL — أكبر منصة رقمية لمواد البناء والخدمات الهندسية في الأردن. اطلب الإسمنت، الحديد، البلوك وأكثر بأقل من 30 ثانية." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c014e69f-ca5d-44a5-9820-c859f72f8d90/id-preview-9b4af877--dec29afe-bae1-4f6c-b6d1-e856a7759a65.lovable.app-1779023940942.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c014e69f-ca5d-44a5-9820-c859f72f8d90/id-preview-9b4af877--dec29afe-bae1-4f6c-b6d1-e856a7759a65.lovable.app-1779023940942.png" },
     ],
     links: [
       {
