@@ -4,6 +4,7 @@ import { Star, ShieldCheck, Truck, Minus, Plus, ShoppingCart, ArrowLeft } from "
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ProductReviews } from "@/components/ProductReviews";
 import { useI18n } from "@/lib/i18n";
 import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
@@ -123,6 +124,8 @@ function ProductDetail() {
             </div>
           </div>
         </div>
+
+        <ProductReviews productId={p.id} />
       </div>
     </Layout>
   );

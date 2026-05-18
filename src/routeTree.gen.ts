@@ -10,11 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as InspectionRouteImport } from './routes/inspection'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ComplaintsRouteImport } from './routes/complaints'
@@ -32,6 +35,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubscriptionRoute = SubscriptionRouteImport.update({
+  id: '/subscription',
+  path: '/subscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -47,6 +55,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersRoute = OrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
@@ -55,6 +68,11 @@ const OrdersRoute = OrdersRouteImport.update({
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspectionRoute = InspectionRouteImport.update({
+  id: '/inspection',
+  path: '/inspection',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -124,11 +142,14 @@ export interface FileRoutesByFullPath {
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -143,11 +164,14 @@ export interface FileRoutesByTo {
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -163,11 +187,14 @@ export interface FileRoutesById {
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
+  '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -184,11 +211,14 @@ export interface FileRouteTypes {
     | '/complaints'
     | '/contact'
     | '/faq'
+    | '/inspection'
     | '/marketplace'
     | '/orders'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -203,11 +233,14 @@ export interface FileRouteTypes {
     | '/complaints'
     | '/contact'
     | '/faq'
+    | '/inspection'
     | '/marketplace'
     | '/orders'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   id:
@@ -222,11 +255,14 @@ export interface FileRouteTypes {
     | '/complaints'
     | '/contact'
     | '/faq'
+    | '/inspection'
     | '/marketplace'
     | '/orders'
+    | '/pricing'
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   fileRoutesById: FileRoutesById
@@ -242,11 +278,14 @@ export interface RootRouteChildren {
   ComplaintsRoute: typeof ComplaintsRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  InspectionRoute: typeof InspectionRoute
   MarketplaceRoute: typeof MarketplaceRoute
   OrdersRoute: typeof OrdersRoute
+  PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ServicesRoute: typeof ServicesRoute
+  SubscriptionRoute: typeof SubscriptionRoute
   TermsRoute: typeof TermsRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -258,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subscription': {
+      id: '/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof SubscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -281,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders': {
       id: '/orders'
       path: '/orders'
@@ -293,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/marketplace'
       fullPath: '/marketplace'
       preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspection': {
+      id: '/inspection'
+      path: '/inspection'
+      fullPath: '/inspection'
+      preLoaderRoute: typeof InspectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -386,11 +446,14 @@ const rootRouteChildren: RootRouteChildren = {
   ComplaintsRoute: ComplaintsRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  InspectionRoute: InspectionRoute,
   MarketplaceRoute: MarketplaceRoute,
   OrdersRoute: OrdersRoute,
+  PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ServicesRoute: ServicesRoute,
+  SubscriptionRoute: SubscriptionRoute,
   TermsRoute: TermsRoute,
   ProductIdRoute: ProductIdRoute,
 }
