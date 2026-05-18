@@ -181,6 +181,57 @@ export type Database = {
         }
         Relationships: []
       }
+      inspection_requests: {
+        Row: {
+          address: string
+          area_m2: number | null
+          city: string
+          created_at: string | null
+          full_name: string
+          id: string
+          inspection_type: string
+          notes: string | null
+          phone: string
+          preferred_date: string | null
+          project_type: string | null
+          status: string | null
+          ticket_number: string | null
+          user_id: string | null
+        }
+        Insert: {
+          address: string
+          area_m2?: number | null
+          city: string
+          created_at?: string | null
+          full_name: string
+          id?: string
+          inspection_type: string
+          notes?: string | null
+          phone: string
+          preferred_date?: string | null
+          project_type?: string | null
+          status?: string | null
+          ticket_number?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          address?: string
+          area_m2?: number | null
+          city?: string
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          inspection_type?: string
+          notes?: string | null
+          phone?: string
+          preferred_date?: string | null
+          project_type?: string | null
+          status?: string | null
+          ticket_number?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string | null
@@ -280,6 +331,54 @@ export type Database = {
           tax?: number | null
           total?: number
           user_id?: string
+        }
+        Relationships: []
+      }
+      price_quotes: {
+        Row: {
+          area_m2: number
+          breakdown: Json | null
+          created_at: string | null
+          estimated_total: number | null
+          finish_level: string | null
+          floors: number | null
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string
+          project_type: string
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          area_m2: number
+          breakdown?: Json | null
+          created_at?: string | null
+          estimated_total?: number | null
+          finish_level?: string | null
+          floors?: number | null
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone: string
+          project_type: string
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          area_m2?: number
+          breakdown?: Json | null
+          created_at?: string | null
+          estimated_total?: number | null
+          finish_level?: string | null
+          floors?: number | null
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string
+          project_type?: string
+          status?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -438,6 +537,48 @@ export type Database = {
           },
         ]
       }
+      subscription_plans: {
+        Row: {
+          created_at: string | null
+          features_ar: Json
+          features_en: Json
+          id: string
+          name_ar: string
+          name_en: string
+          popular: boolean | null
+          price_monthly: number
+          price_yearly: number
+          slug: string
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          features_ar?: Json
+          features_en?: Json
+          id?: string
+          name_ar: string
+          name_en: string
+          popular?: boolean | null
+          price_monthly: number
+          price_yearly: number
+          slug: string
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          features_ar?: Json
+          features_en?: Json
+          id?: string
+          name_ar?: string
+          name_en?: string
+          popular?: boolean | null
+          price_monthly?: number
+          price_yearly?: number
+          slug?: string
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -455,6 +596,39 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_subscriptions: {
+        Row: {
+          billing_cycle: string
+          created_at: string | null
+          ends_at: string | null
+          id: string
+          plan_id: string
+          starts_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          billing_cycle?: string
+          created_at?: string | null
+          ends_at?: string | null
+          id?: string
+          plan_id: string
+          starts_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          billing_cycle?: string
+          created_at?: string | null
+          ends_at?: string | null
+          id?: string
+          plan_id?: string
+          starts_at?: string | null
+          status?: string
           user_id?: string
         }
         Relationships: []
