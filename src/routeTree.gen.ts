@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -32,6 +33,11 @@ import { Route as ProductIdRouteImport } from './routes/product.$id'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscriptionRoute = SubscriptionRouteImport.update({
+  id: '/subscription',
+  path: '/subscription',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
+  '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   id:
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/services'
+    | '/subscription'
     | '/terms'
     | '/product/$id'
   fileRoutesById: FileRoutesById
@@ -273,6 +285,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ServicesRoute: typeof ServicesRoute
+  SubscriptionRoute: typeof SubscriptionRoute
   TermsRoute: typeof TermsRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subscription': {
+      id: '/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof SubscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -433,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ServicesRoute: ServicesRoute,
+  SubscriptionRoute: SubscriptionRoute,
   TermsRoute: TermsRoute,
   ProductIdRoute: ProductIdRoute,
 }
