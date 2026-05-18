@@ -22,6 +22,9 @@ export function Header() {
   const nav = [
     { to: "/", label: t("nav_home") },
     { to: "/marketplace", label: t("nav_market") },
+    { to: "/pricing", label: lang === "ar" ? "التسعير الذكي" : "Smart Pricing" },
+    { to: "/inspection", label: lang === "ar" ? "المعاينة" : "Inspection" },
+    { to: "/subscription", label: lang === "ar" ? "الاشتراكات" : "Plans" },
     { to: "/services", label: t("nav_services") },
     { to: "/companies", label: t("nav_companies") },
     { to: "/ai-chat", label: t("nav_ai") },
