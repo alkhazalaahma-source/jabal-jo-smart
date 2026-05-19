@@ -110,8 +110,9 @@ function Checkout() {
           <p className="text-2xl font-bold text-orange-grad mb-6">{done}</p>
           {f.payment === "cliq" && (
             <div className="bg-muted rounded-xl p-4 mb-6 text-sm">
-              {lang === "ar" ? "حوّل المبلغ إلى CliQ: " : "Transfer via CliQ to: "}
-              <span className="font-bold">jabal.jo</span>
+              {lang === "ar" ? "حوّل المبلغ عبر CliQ إلى: " : "Transfer via CliQ to: "}
+              <span className="font-bold" dir="ltr">+962 79 293 1516</span>
+              <div className="text-xs text-muted-foreground mt-1">jabaljo42@gmail.com</div>
             </div>
           )}
           <div className="flex gap-3 justify-center">
