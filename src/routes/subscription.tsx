@@ -56,10 +56,10 @@ function SubscriptionPage() {
     const ends = new Date();
     ends.setMonth(ends.getMonth() + (cycle === "yearly" ? 12 : 1));
     const { error } = await supabase.from("user_subscriptions").insert({
-      user_id: user.id, plan_id: plan.id, billing_cycle: cycle, status: "pending", ends_at: ends.toISOString(),
+      user_id: user.id, plan_id: plan.id, billing_cycle: cycle, status: "active", ends_at: ends.toISOString(),
     });
     if (error) toast.error(error.message);
-    else toast.success(lang === "ar" ? "تم تسجيل اشتراكك! سنتواصل معك لإتمام الدفع." : "Subscription registered! We'll contact you for payment.");
+    else toast.success(lang === "ar" ? `تم تفعيل اشتراك ${plan.name_ar} بنجاح!` : `${plan.name_en} plan activated!`);
   };
 
   return (
