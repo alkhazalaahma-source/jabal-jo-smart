@@ -189,6 +189,31 @@ function Checkout() {
             <div className="space-y-2 text-sm mt-3">
               <div className="flex justify-between"><span>{t("cart_subtotal")}</span><span>{subtotal.toFixed(2)}</span></div>
               <div className="flex justify-between"><span>{t("delivery")}</span><span>{delivery.toFixed(2)}</span></div>
+              {applied && (
+                <div className="flex justify-between text-success">
+                  <span>{lang === "ar" ? `خصم (${applied.code})` : `Discount (${applied.code})`}</span>
+                  <span>−{discount.toFixed(2)}</span>
+                </div>
+              )}
+              <Separator className="my-2" />
+              <div className="flex gap-2">
+                <Input
+                  placeholder={lang === "ar" ? "كود الخصم" : "Discount code"}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  disabled={!!applied}
+                  className="h-9"
+                />
+                {applied ? (
+                  <Button type="button" variant="outline" size="sm" onClick={() => { setApplied(null); setCode(""); }}>
+                    {lang === "ar" ? "إزالة" : "Remove"}
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" size="sm" onClick={applyCode} disabled={codeLoading}>
+                    {lang === "ar" ? "تطبيق" : "Apply"}
+                  </Button>
+                )}
+              </div>
               <Separator className="my-2" />
               <div className="flex justify-between text-lg font-black"><span>{t("total")}</span><span className="text-orange-grad">{total.toFixed(2)} {lang === "ar" ? "د.أ" : "JOD"}</span></div>
             </div>
