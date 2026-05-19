@@ -33,13 +33,16 @@ function InspectionPage() {
   const [type, setType] = useState("site");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [projectType, setProjectType] = useState("residential");
   const [area, setArea] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
+  const [ticket, setTicket] = useState<string | null>(null);
 
   const submit = async () => {
     if (!fullName || phone.length < 6 || !city || !address) {
@@ -47,23 +50,26 @@ function InspectionPage() {
       return;
     }
     setSaving(true);
-    const { error } = await supabase.from("inspection_requests").insert({
+    const { data, error } = await supabase.from("inspection_requests").insert({
       user_id: user?.id ?? null,
       full_name: fullName,
       phone,
+      email: email || null,
       city,
       address,
       inspection_type: type,
       project_type: projectType,
       area_m2: area ? Number(area) : null,
       preferred_date: date || null,
+      preferred_time: time || null,
       notes: notes || null,
-    });
+    }).select("ticket_number").single();
     setSaving(false);
     if (error) toast.error(error.message);
     else {
-      toast.success(lang === "ar" ? "تم تأكيد طلب المعاينة! سنتواصل معك قريباً." : "Inspection booked! We'll contact you shortly.");
-      setFullName(""); setPhone(""); setCity(""); setAddress(""); setArea(""); setDate(""); setNotes("");
+      setTicket(data?.ticket_number ?? "");
+      toast.success(lang === "ar" ? "تم تأكيد حجز المعاينة!" : "Inspection booked!");
+      setFullName(""); setPhone(""); setEmail(""); setCity(""); setAddress(""); setArea(""); setDate(""); setTime(""); setNotes("");
     }
   };
 
@@ -100,6 +106,18 @@ function InspectionPage() {
           })}
         </div>
 
+        {ticket && (
+          <div className="bg-success/10 border-2 border-success rounded-2xl p-6 max-w-3xl mx-auto mb-6 text-center">
+            <div className="text-success font-bold text-lg mb-1">{lang === "ar" ? "✅ تم تأكيد حجزك!" : "✅ Booking confirmed!"}</div>
+            <div className="text-sm text-muted-foreground mb-2">{lang === "ar" ? "رقم الطلب" : "Ticket"}</div>
+            <div className="text-2xl font-black text-orange-grad mb-2">{ticket}</div>
+            <p className="text-sm">{lang === "ar" ? "سنتواصل معك خلال ساعات على الرقم/البريد المُسجّل." : "We'll contact you on the registered phone/email shortly."}</p>
+            <a href="tel:+962792931516" className="text-accent text-sm font-semibold hover:underline mt-2 inline-block">
+              {lang === "ar" ? "أو اتصل بنا مباشرة: +962 79 293 1516" : "Or call us: +962 79 293 1516"}
+            </a>
+          </div>
+        )}
+
         <div className="bg-card border rounded-2xl p-6 shadow-card max-w-3xl mx-auto space-y-4">
           <div className="grid md:grid-cols-2 gap-3">
             <div>
@@ -108,7 +126,11 @@ function InspectionPage() {
             </div>
             <div>
               <Label>{t("phone")} *</Label>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <Input value={phone} onChange={(e) => setPhone(e.target.value)} dir="ltr" />
+            </div>
+            <div>
+              <Label>{lang === "ar" ? "البريد الإلكتروني" : "Email"}</Label>
+              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} dir="ltr" />
             </div>
             <div>
               <Label>{t("city")} *</Label>
@@ -126,17 +148,28 @@ function InspectionPage() {
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label>{lang === "ar" ? "المساحة (م²)" : "Area (m²)"}</Label>
+              <Input type="number" value={area} onChange={(e) => setArea(e.target.value)} />
+            </div>
             <div className="md:col-span-2">
               <Label>{t("address")} *</Label>
               <Input value={address} onChange={(e) => setAddress(e.target.value)} />
             </div>
             <div>
-              <Label>{lang === "ar" ? "المساحة (م²)" : "Area (m²)"}</Label>
-              <Input type="number" value={area} onChange={(e) => setArea(e.target.value)} />
+              <Label>{lang === "ar" ? "التاريخ المفضّل" : "Preferred date"}</Label>
+              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().split("T")[0]} />
             </div>
             <div>
-              <Label>{lang === "ar" ? "التاريخ المفضّل" : "Preferred date"}</Label>
-              <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <Label>{lang === "ar" ? "الوقت المفضّل" : "Preferred time"}</Label>
+              <Select value={time} onValueChange={setTime}>
+                <SelectTrigger><SelectValue placeholder={lang === "ar" ? "اختر الوقت" : "Pick a time"} /></SelectTrigger>
+                <SelectContent>
+                  {["08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00"].map((h) => (
+                    <SelectItem key={h} value={h}>{h}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="md:col-span-2">
               <Label>{t("notes")}</Label>

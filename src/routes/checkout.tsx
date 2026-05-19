@@ -30,6 +30,9 @@ function Checkout() {
   const [done, setDone] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [f, setF] = useState({ full_name: "", phone: "", city: "عمّان", address: "", notes: "", payment: "cash" });
+  const [code, setCode] = useState("");
+  const [applied, setApplied] = useState<{ code: string; amount: number } | null>(null);
+  const [codeLoading, setCodeLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -40,7 +43,27 @@ function Checkout() {
   }, [user]);
 
   const delivery = 5;
-  const total = subtotal + delivery;
+  const discount = applied?.amount ?? 0;
+  const total = Math.max(0, subtotal + delivery - discount);
+
+  const applyCode = async () => {
+    if (!code.trim()) return;
+    setCodeLoading(true);
+    const { data, error } = await supabase
+      .from("discount_codes")
+      .select("*")
+      .eq("code", code.trim().toUpperCase())
+      .eq("active", true)
+      .maybeSingle();
+    setCodeLoading(false);
+    if (error || !data) { toast.error(lang === "ar" ? "كود غير صالح" : "Invalid code"); return; }
+    if (data.expires_at && new Date(data.expires_at) < new Date()) { toast.error(lang === "ar" ? "انتهت صلاحية الكود" : "Code expired"); return; }
+    if (data.max_uses && data.used_count >= data.max_uses) { toast.error(lang === "ar" ? "استُنفد الكود" : "Code limit reached"); return; }
+    if (subtotal < Number(data.min_order)) { toast.error(lang === "ar" ? `الحد الأدنى للطلب ${data.min_order} د.أ` : `Min order ${data.min_order} JOD`); return; }
+    const amount = data.discount_type === "percent" ? (subtotal * Number(data.discount_value)) / 100 : Number(data.discount_value);
+    setApplied({ code: data.code, amount: Math.min(amount, subtotal) });
+    toast.success(lang === "ar" ? `تم تطبيق خصم ${amount.toFixed(2)} د.أ` : `Discount ${amount.toFixed(2)} JOD applied`);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +80,8 @@ function Checkout() {
       subtotal,
       delivery_fee: delivery,
       total,
+      discount_code: applied?.code ?? null,
+      discount_amount: discount,
       payment_method: (f.payment === "bank" ? "bank_transfer" : f.payment) as "cash" | "cliq" | "bank_transfer",
     }).select("id,order_number").single();
     if (error || !order) { setLoading(false); toast.error(error?.message ?? "Error"); return; }
@@ -85,8 +110,9 @@ function Checkout() {
           <p className="text-2xl font-bold text-orange-grad mb-6">{done}</p>
           {f.payment === "cliq" && (
             <div className="bg-muted rounded-xl p-4 mb-6 text-sm">
-              {lang === "ar" ? "حوّل المبلغ إلى CliQ: " : "Transfer via CliQ to: "}
-              <span className="font-bold">jabal.jo</span>
+              {lang === "ar" ? "حوّل المبلغ عبر CliQ إلى: " : "Transfer via CliQ to: "}
+              <span className="font-bold" dir="ltr">+962 79 293 1516</span>
+              <div className="text-xs text-muted-foreground mt-1">jabaljo42@gmail.com</div>
             </div>
           )}
           <div className="flex gap-3 justify-center">
@@ -137,7 +163,7 @@ function Checkout() {
               <RadioGroup value={f.payment} onValueChange={(v) => setF({ ...f, payment: v })} className="space-y-2">
                 {[
                   { v: "cash", l: t("pay_cash"), d: lang === "ar" ? "ادفع عند استلام الشحنة" : "Pay upon delivery" },
-                  { v: "cliq", l: t("pay_cliq"), d: lang === "ar" ? "حوّل عبر CliQ إلى jabal.jo" : "Transfer via CliQ to jabal.jo" },
+                  { v: "cliq", l: t("pay_cliq"), d: lang === "ar" ? "حوّل عبر CliQ إلى +962 79 293 1516" : "Transfer via CliQ to +962 79 293 1516" },
                   { v: "bank", l: t("pay_bank"), d: lang === "ar" ? "تحويل بنكي مباشر" : "Direct bank transfer" },
                 ].map((p) => (
                   <label key={p.v} className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-muted">
@@ -163,6 +189,31 @@ function Checkout() {
             <div className="space-y-2 text-sm mt-3">
               <div className="flex justify-between"><span>{t("cart_subtotal")}</span><span>{subtotal.toFixed(2)}</span></div>
               <div className="flex justify-between"><span>{t("delivery")}</span><span>{delivery.toFixed(2)}</span></div>
+              {applied && (
+                <div className="flex justify-between text-success">
+                  <span>{lang === "ar" ? `خصم (${applied.code})` : `Discount (${applied.code})`}</span>
+                  <span>−{discount.toFixed(2)}</span>
+                </div>
+              )}
+              <Separator className="my-2" />
+              <div className="flex gap-2">
+                <Input
+                  placeholder={lang === "ar" ? "كود الخصم" : "Discount code"}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  disabled={!!applied}
+                  className="h-9"
+                />
+                {applied ? (
+                  <Button type="button" variant="outline" size="sm" onClick={() => { setApplied(null); setCode(""); }}>
+                    {lang === "ar" ? "إزالة" : "Remove"}
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" size="sm" onClick={applyCode} disabled={codeLoading}>
+                    {lang === "ar" ? "تطبيق" : "Apply"}
+                  </Button>
+                )}
+              </div>
               <Separator className="my-2" />
               <div className="flex justify-between text-lg font-black"><span>{t("total")}</span><span className="text-orange-grad">{total.toFixed(2)} {lang === "ar" ? "د.أ" : "JOD"}</span></div>
             </div>
