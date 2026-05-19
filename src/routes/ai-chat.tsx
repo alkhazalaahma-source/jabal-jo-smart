@@ -40,8 +40,8 @@ function AIChat() {
   };
 
   const suggestions = lang === "ar"
-    ? ["كم طن إسمنت أحتاج لبيت 200م²؟", "اقترح موردين للحديد في عمّان", "نصائح للأساسات", "السلام عليكم"]
-    : ["How much cement for a 200m² house?", "Suggest steel suppliers in Amman", "Foundation tips", "Hello!"];
+    ? ["كم طن إسمنت أحتاج لبيت 200م²؟", "اقترح أفضل مورد حديد في عمّان", "ما الفرق بين إسمنت Lafarge و Manaseer؟", "نصائح لعزل السطح ضد الحرارة", "احسب تكلفة تشطيب فيلا 300م²", "أنواع البلوك وأسعارها"]
+    : ["Cement needed for a 200m² house?", "Best steel supplier in Amman?", "Lafarge vs Manaseer cement?", "Heat insulation tips", "Cost to finish a 300m² villa", "Block types & prices"];
 
   return (
     <Layout>
