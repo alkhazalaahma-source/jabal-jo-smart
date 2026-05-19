@@ -30,6 +30,9 @@ function Checkout() {
   const [done, setDone] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [f, setF] = useState({ full_name: "", phone: "", city: "عمّان", address: "", notes: "", payment: "cash" });
+  const [code, setCode] = useState("");
+  const [applied, setApplied] = useState<{ code: string; amount: number } | null>(null);
+  const [codeLoading, setCodeLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -40,7 +43,27 @@ function Checkout() {
   }, [user]);
 
   const delivery = 5;
-  const total = subtotal + delivery;
+  const discount = applied?.amount ?? 0;
+  const total = Math.max(0, subtotal + delivery - discount);
+
+  const applyCode = async () => {
+    if (!code.trim()) return;
+    setCodeLoading(true);
+    const { data, error } = await supabase
+      .from("discount_codes")
+      .select("*")
+      .eq("code", code.trim().toUpperCase())
+      .eq("active", true)
+      .maybeSingle();
+    setCodeLoading(false);
+    if (error || !data) { toast.error(lang === "ar" ? "كود غير صالح" : "Invalid code"); return; }
+    if (data.expires_at && new Date(data.expires_at) < new Date()) { toast.error(lang === "ar" ? "انتهت صلاحية الكود" : "Code expired"); return; }
+    if (data.max_uses && data.used_count >= data.max_uses) { toast.error(lang === "ar" ? "استُنفد الكود" : "Code limit reached"); return; }
+    if (subtotal < Number(data.min_order)) { toast.error(lang === "ar" ? `الحد الأدنى للطلب ${data.min_order} د.أ` : `Min order ${data.min_order} JOD`); return; }
+    const amount = data.discount_type === "percent" ? (subtotal * Number(data.discount_value)) / 100 : Number(data.discount_value);
+    setApplied({ code: data.code, amount: Math.min(amount, subtotal) });
+    toast.success(lang === "ar" ? `تم تطبيق خصم ${amount.toFixed(2)} د.أ` : `Discount ${amount.toFixed(2)} JOD applied`);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +80,8 @@ function Checkout() {
       subtotal,
       delivery_fee: delivery,
       total,
+      discount_code: applied?.code ?? null,
+      discount_amount: discount,
       payment_method: (f.payment === "bank" ? "bank_transfer" : f.payment) as "cash" | "cliq" | "bank_transfer",
     }).select("id,order_number").single();
     if (error || !order) { setLoading(false); toast.error(error?.message ?? "Error"); return; }
