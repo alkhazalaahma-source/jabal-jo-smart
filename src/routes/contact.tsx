@@ -40,15 +40,15 @@ function Contact() {
         <div className="grid lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="space-y-4">
             {[
-              { i: Phone, l: "+962 7 9000 0000", t: lang === "ar" ? "اتصل بنا" : "Call us" },
-              { i: Mail, l: "info@jabal.jo", t: lang === "ar" ? "راسلنا" : "Email" },
-              { i: MessageCircle, l: "+962 7 9000 0000", t: "WhatsApp" },
-              { i: MapPin, l: lang === "ar" ? "عمّان، الأردن" : "Amman, Jordan", t: lang === "ar" ? "المقر" : "HQ" },
+              { i: Phone, l: "+962 79 293 1516", t: lang === "ar" ? "اتصل بنا" : "Call us", href: "tel:+962792931516" },
+              { i: Mail, l: "jabaljo42@gmail.com", t: lang === "ar" ? "راسلنا" : "Email", href: "mailto:jabaljo42@gmail.com" },
+              { i: MessageCircle, l: "+962 79 293 1516", t: "WhatsApp", href: "https://wa.me/962792931516" },
+              { i: MapPin, l: lang === "ar" ? "عمّان، الأردن" : "Amman, Jordan", t: lang === "ar" ? "المقر" : "HQ", href: "https://maps.google.com/?q=Amman,Jordan" },
             ].map((c) => (
-              <div key={c.l} className="bg-card border rounded-xl p-4 flex items-center gap-3">
+              <a key={c.l} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="bg-card border rounded-xl p-4 flex items-center gap-3 hover:border-accent transition">
                 <div className="w-11 h-11 rounded-lg bg-orange-grad flex items-center justify-center"><c.i className="h-5 w-5 text-accent-foreground" /></div>
-                <div><div className="text-xs text-muted-foreground">{c.t}</div><div className="font-bold">{c.l}</div></div>
-              </div>
+                <div><div className="text-xs text-muted-foreground">{c.t}</div><div className="font-bold" dir="ltr">{c.l}</div></div>
+              </a>
             ))}
           </div>
 
