@@ -33,13 +33,16 @@ function InspectionPage() {
   const [type, setType] = useState("site");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [projectType, setProjectType] = useState("residential");
   const [area, setArea] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
+  const [ticket, setTicket] = useState<string | null>(null);
 
   const submit = async () => {
     if (!fullName || phone.length < 6 || !city || !address) {
@@ -47,23 +50,26 @@ function InspectionPage() {
       return;
     }
     setSaving(true);
-    const { error } = await supabase.from("inspection_requests").insert({
+    const { data, error } = await supabase.from("inspection_requests").insert({
       user_id: user?.id ?? null,
       full_name: fullName,
       phone,
+      email: email || null,
       city,
       address,
       inspection_type: type,
       project_type: projectType,
       area_m2: area ? Number(area) : null,
       preferred_date: date || null,
+      preferred_time: time || null,
       notes: notes || null,
-    });
+    }).select("ticket_number").single();
     setSaving(false);
     if (error) toast.error(error.message);
     else {
-      toast.success(lang === "ar" ? "تم تأكيد طلب المعاينة! سنتواصل معك قريباً." : "Inspection booked! We'll contact you shortly.");
-      setFullName(""); setPhone(""); setCity(""); setAddress(""); setArea(""); setDate(""); setNotes("");
+      setTicket(data?.ticket_number ?? "");
+      toast.success(lang === "ar" ? "تم تأكيد حجز المعاينة!" : "Inspection booked!");
+      setFullName(""); setPhone(""); setEmail(""); setCity(""); setAddress(""); setArea(""); setDate(""); setTime(""); setNotes("");
     }
   };
 
