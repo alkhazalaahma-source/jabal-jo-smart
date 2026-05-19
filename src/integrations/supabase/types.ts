@@ -181,18 +181,59 @@ export type Database = {
         }
         Relationships: []
       }
+      discount_codes: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          expires_at: string | null
+          id: string
+          max_uses: number | null
+          min_order: number
+          used_count: number
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          discount_type: string
+          discount_value: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order?: number
+          used_count?: number
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_uses?: number | null
+          min_order?: number
+          used_count?: number
+        }
+        Relationships: []
+      }
       inspection_requests: {
         Row: {
           address: string
           area_m2: number | null
           city: string
           created_at: string | null
+          email: string | null
           full_name: string
           id: string
           inspection_type: string
           notes: string | null
           phone: string
           preferred_date: string | null
+          preferred_time: string | null
           project_type: string | null
           status: string | null
           ticket_number: string | null
@@ -203,12 +244,14 @@ export type Database = {
           area_m2?: number | null
           city: string
           created_at?: string | null
+          email?: string | null
           full_name: string
           id?: string
           inspection_type: string
           notes?: string | null
           phone: string
           preferred_date?: string | null
+          preferred_time?: string | null
           project_type?: string | null
           status?: string | null
           ticket_number?: string | null
@@ -219,12 +262,14 @@ export type Database = {
           area_m2?: number | null
           city?: string
           created_at?: string | null
+          email?: string | null
           full_name?: string
           id?: string
           inspection_type?: string
           notes?: string | null
           phone?: string
           preferred_date?: string | null
+          preferred_time?: string | null
           project_type?: string | null
           status?: string | null
           ticket_number?: string | null
@@ -286,6 +331,8 @@ export type Database = {
           city: string
           created_at: string | null
           delivery_fee: number | null
+          discount_amount: number
+          discount_code: string | null
           full_name: string
           id: string
           notes: string | null
@@ -303,6 +350,8 @@ export type Database = {
           city: string
           created_at?: string | null
           delivery_fee?: number | null
+          discount_amount?: number
+          discount_code?: string | null
           full_name: string
           id?: string
           notes?: string | null
@@ -320,6 +369,8 @@ export type Database = {
           city?: string
           created_at?: string | null
           delivery_fee?: number | null
+          discount_amount?: number
+          discount_code?: string | null
           full_name?: string
           id?: string
           notes?: string | null
