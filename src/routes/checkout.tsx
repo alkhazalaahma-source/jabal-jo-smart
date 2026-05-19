@@ -163,7 +163,7 @@ function Checkout() {
               <RadioGroup value={f.payment} onValueChange={(v) => setF({ ...f, payment: v })} className="space-y-2">
                 {[
                   { v: "cash", l: t("pay_cash"), d: lang === "ar" ? "ادفع عند استلام الشحنة" : "Pay upon delivery" },
-                  { v: "cliq", l: t("pay_cliq"), d: lang === "ar" ? "حوّل عبر CliQ إلى jabal.jo" : "Transfer via CliQ to jabal.jo" },
+                  { v: "cliq", l: t("pay_cliq"), d: lang === "ar" ? "حوّل عبر CliQ إلى +962 79 293 1516" : "Transfer via CliQ to +962 79 293 1516" },
                   { v: "bank", l: t("pay_bank"), d: lang === "ar" ? "تحويل بنكي مباشر" : "Direct bank transfer" },
                 ].map((p) => (
                   <label key={p.v} className="flex items-start gap-3 p-3 border rounded-lg cursor-pointer hover:bg-muted">
