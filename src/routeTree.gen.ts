@@ -31,6 +31,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TurnkeyProjectsRouteImport } from './routes/turnkey.projects'
 import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
+import { Route as TurnkeyIdRouteImport } from './routes/turnkey.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
 const TurnkeyRoute = TurnkeyRouteImport.update({
@@ -143,6 +144,11 @@ const TurnkeyNewRoute = TurnkeyNewRouteImport.update({
   path: '/new',
   getParentRoute: () => TurnkeyRoute,
 } as any)
+const TurnkeyIdRoute = TurnkeyIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
   '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
@@ -196,6 +203,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
   '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
   '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
     | '/turnkey/new'
     | '/turnkey/projects'
   fileRoutesByTo: FileRoutesByTo
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
     | '/turnkey/new'
     | '/turnkey/projects'
   id:
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
     | '/turnkey/new'
     | '/turnkey/projects'
   fileRoutesById: FileRoutesById
@@ -483,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TurnkeyNewRouteImport
       parentRoute: typeof TurnkeyRoute
     }
+    '/turnkey/$id': {
+      id: '/turnkey/$id'
+      path: '/$id'
+      fullPath: '/turnkey/$id'
+      preLoaderRoute: typeof TurnkeyIdRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -494,11 +513,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface TurnkeyRouteChildren {
+  TurnkeyIdRoute: typeof TurnkeyIdRoute
   TurnkeyNewRoute: typeof TurnkeyNewRoute
   TurnkeyProjectsRoute: typeof TurnkeyProjectsRoute
 }
 
 const TurnkeyRouteChildren: TurnkeyRouteChildren = {
+  TurnkeyIdRoute: TurnkeyIdRoute,
   TurnkeyNewRoute: TurnkeyNewRoute,
   TurnkeyProjectsRoute: TurnkeyProjectsRoute,
 }

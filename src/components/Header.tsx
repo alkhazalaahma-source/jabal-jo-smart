@@ -25,6 +25,7 @@ export function Header() {
     { to: "/pricing", label: lang === "ar" ? "التسعير الذكي" : "Smart Pricing" },
     { to: "/inspection", label: lang === "ar" ? "المعاينة" : "Inspection" },
     { to: "/subscription", label: lang === "ar" ? "الاشتراكات" : "Plans" },
+    { to: "/turnkey", label: lang === "ar" ? "تسليم مفتاح" : "Turnkey" },
     { to: "/services", label: t("nav_services") },
     { to: "/companies", label: t("nav_companies") },
     { to: "/ai-chat", label: t("nav_ai") },
