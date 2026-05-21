@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TurnkeyRouteImport } from './routes/turnkey'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -28,8 +29,14 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
+const TurnkeyRoute = TurnkeyRouteImport.update({
+  id: '/turnkey',
+  path: '/turnkey',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -125,6 +132,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnkeyNewRoute = TurnkeyNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -151,7 +163,9 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,7 +187,9 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,7 +212,9 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,7 +238,9 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -242,7 +262,9 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/new'
   id:
     | '__root__'
     | '/'
@@ -264,7 +286,9 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -287,11 +311,19 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SubscriptionRoute: typeof SubscriptionRoute
   TermsRoute: typeof TermsRoute
+  TurnkeyRoute: typeof TurnkeyRouteWithChildren
   ProductIdRoute: typeof ProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/turnkey': {
+      id: '/turnkey'
+      path: '/turnkey'
+      fullPath: '/turnkey'
+      preLoaderRoute: typeof TurnkeyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -425,6 +457,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turnkey/new': {
+      id: '/turnkey/new'
+      path: '/new'
+      fullPath: '/turnkey/new'
+      preLoaderRoute: typeof TurnkeyNewRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -434,6 +473,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface TurnkeyRouteChildren {
+  TurnkeyNewRoute: typeof TurnkeyNewRoute
+}
+
+const TurnkeyRouteChildren: TurnkeyRouteChildren = {
+  TurnkeyNewRoute: TurnkeyNewRoute,
+}
+
+const TurnkeyRouteWithChildren =
+  TurnkeyRoute._addFileChildren(TurnkeyRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -455,8 +505,19 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SubscriptionRoute: SubscriptionRoute,
   TermsRoute: TermsRoute,
+  TurnkeyRoute: TurnkeyRouteWithChildren,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
