@@ -181,6 +181,132 @@ export type Database = {
         }
         Relationships: []
       }
+      contractor_bids: {
+        Row: {
+          contractor_id: string
+          created_at: string | null
+          details: string | null
+          duration_days: number
+          id: string
+          materials: string | null
+          payment_schedule: Json | null
+          price: number
+          project_id: string
+          status: string
+          user_id: string
+          warranty_months: number | null
+        }
+        Insert: {
+          contractor_id: string
+          created_at?: string | null
+          details?: string | null
+          duration_days: number
+          id?: string
+          materials?: string | null
+          payment_schedule?: Json | null
+          price: number
+          project_id: string
+          status?: string
+          user_id: string
+          warranty_months?: number | null
+        }
+        Update: {
+          contractor_id?: string
+          created_at?: string | null
+          details?: string | null
+          duration_days?: number
+          id?: string
+          materials?: string | null
+          payment_schedule?: Json | null
+          price?: number
+          project_id?: string
+          status?: string
+          user_id?: string
+          warranty_months?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contractor_bids_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "contractors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contractor_bids_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "turnkey_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contractors: {
+        Row: {
+          bio: string | null
+          bio_ar: string | null
+          completed_projects: number | null
+          created_at: string | null
+          email: string | null
+          experience_years: number | null
+          featured: boolean | null
+          id: string
+          logo_url: string | null
+          name: string
+          name_ar: string | null
+          phone: string | null
+          portfolio: Json | null
+          rating: number | null
+          rating_count: number | null
+          regions: string[] | null
+          specialties: string[] | null
+          user_id: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          bio?: string | null
+          bio_ar?: string | null
+          completed_projects?: number | null
+          created_at?: string | null
+          email?: string | null
+          experience_years?: number | null
+          featured?: boolean | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          name_ar?: string | null
+          phone?: string | null
+          portfolio?: Json | null
+          rating?: number | null
+          rating_count?: number | null
+          regions?: string[] | null
+          specialties?: string[] | null
+          user_id?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          bio?: string | null
+          bio_ar?: string | null
+          completed_projects?: number | null
+          created_at?: string | null
+          email?: string | null
+          experience_years?: number | null
+          featured?: boolean | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          name_ar?: string | null
+          phone?: string | null
+          portfolio?: Json | null
+          rating?: number | null
+          rating_count?: number | null
+          regions?: string[] | null
+          specialties?: string[] | null
+          user_id?: string | null
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
       discount_codes: {
         Row: {
           active: boolean
@@ -553,6 +679,94 @@ export type Database = {
         }
         Relationships: []
       }
+      project_payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          due_date: string | null
+          id: string
+          label: string
+          paid_at: string | null
+          payment_method: string | null
+          project_id: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          label: string
+          paid_at?: string | null
+          payment_method?: string | null
+          project_id: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          label?: string
+          paid_at?: string | null
+          payment_method?: string | null
+          project_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_payments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "turnkey_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_updates: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          photos: Json | null
+          progress_percent: number | null
+          project_id: string
+          stage: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          photos?: Json | null
+          progress_percent?: number | null
+          project_id: string
+          stage?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          photos?: Json | null
+          progress_percent?: number | null
+          project_id?: string
+          stage?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_updates_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "turnkey_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           comment: string | null
@@ -627,6 +841,87 @@ export type Database = {
           price_yearly?: number
           slug?: string
           sort_order?: number | null
+        }
+        Relationships: []
+      }
+      turnkey_projects: {
+        Row: {
+          accepted_bid_id: string | null
+          address: string | null
+          area_m2: number
+          assigned_contractor_id: string | null
+          budget_max: number | null
+          budget_min: number | null
+          city: string
+          created_at: string | null
+          description: string | null
+          email: string | null
+          expected_end_date: string | null
+          finish_level: string | null
+          floors: number | null
+          full_name: string
+          id: string
+          phone: string
+          plans_urls: Json | null
+          progress_percent: number | null
+          project_number: string
+          project_type: string
+          start_date: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          accepted_bid_id?: string | null
+          address?: string | null
+          area_m2: number
+          assigned_contractor_id?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          city: string
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          expected_end_date?: string | null
+          finish_level?: string | null
+          floors?: number | null
+          full_name: string
+          id?: string
+          phone: string
+          plans_urls?: Json | null
+          progress_percent?: number | null
+          project_number?: string
+          project_type: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          accepted_bid_id?: string | null
+          address?: string | null
+          area_m2?: number
+          assigned_contractor_id?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          city?: string
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          expected_end_date?: string | null
+          finish_level?: string | null
+          floors?: number | null
+          full_name?: string
+          id?: string
+          phone?: string
+          plans_urls?: Json | null
+          progress_percent?: number | null
+          project_number?: string
+          project_type?: string
+          start_date?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
