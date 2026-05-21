@@ -29,6 +29,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TurnkeyProjectsRouteImport } from './routes/turnkey.projects'
 import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
@@ -132,6 +133,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnkeyProjectsRoute = TurnkeyProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
 const TurnkeyNewRoute = TurnkeyNewRouteImport.update({
   id: '/new',
   path: '/new',
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/turnkey'
     | '/product/$id'
     | '/turnkey/new'
+    | '/turnkey/projects'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -265,6 +275,7 @@ export interface FileRouteTypes {
     | '/turnkey'
     | '/product/$id'
     | '/turnkey/new'
+    | '/turnkey/projects'
   id:
     | '__root__'
     | '/'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/turnkey'
     | '/product/$id'
     | '/turnkey/new'
+    | '/turnkey/projects'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -457,6 +469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turnkey/projects': {
+      id: '/turnkey/projects'
+      path: '/projects'
+      fullPath: '/turnkey/projects'
+      preLoaderRoute: typeof TurnkeyProjectsRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
     '/turnkey/new': {
       id: '/turnkey/new'
       path: '/new'
@@ -476,10 +495,12 @@ declare module '@tanstack/react-router' {
 
 interface TurnkeyRouteChildren {
   TurnkeyNewRoute: typeof TurnkeyNewRoute
+  TurnkeyProjectsRoute: typeof TurnkeyProjectsRoute
 }
 
 const TurnkeyRouteChildren: TurnkeyRouteChildren = {
   TurnkeyNewRoute: TurnkeyNewRoute,
+  TurnkeyProjectsRoute: TurnkeyProjectsRoute,
 }
 
 const TurnkeyRouteWithChildren =
