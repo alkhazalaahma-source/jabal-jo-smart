@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TurnkeyRouteImport } from './routes/turnkey'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -28,8 +29,16 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TurnkeyProjectsRouteImport } from './routes/turnkey.projects'
+import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
+import { Route as TurnkeyIdRouteImport } from './routes/turnkey.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
+const TurnkeyRoute = TurnkeyRouteImport.update({
+  id: '/turnkey',
+  path: '/turnkey',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -125,6 +134,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurnkeyProjectsRoute = TurnkeyProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
+const TurnkeyNewRoute = TurnkeyNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
+const TurnkeyIdRoute = TurnkeyIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => TurnkeyRoute,
+} as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -151,7 +175,11 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,7 +201,11 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,7 +228,11 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
   '/terms': typeof TermsRoute
+  '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
+  '/turnkey/$id': typeof TurnkeyIdRoute
+  '/turnkey/new': typeof TurnkeyNewRoute
+  '/turnkey/projects': typeof TurnkeyProjectsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,7 +256,11 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
+    | '/turnkey/new'
+    | '/turnkey/projects'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -242,7 +282,11 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
+    | '/turnkey/new'
+    | '/turnkey/projects'
   id:
     | '__root__'
     | '/'
@@ -264,7 +308,11 @@ export interface FileRouteTypes {
     | '/services'
     | '/subscription'
     | '/terms'
+    | '/turnkey'
     | '/product/$id'
+    | '/turnkey/$id'
+    | '/turnkey/new'
+    | '/turnkey/projects'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -287,11 +335,19 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SubscriptionRoute: typeof SubscriptionRoute
   TermsRoute: typeof TermsRoute
+  TurnkeyRoute: typeof TurnkeyRouteWithChildren
   ProductIdRoute: typeof ProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/turnkey': {
+      id: '/turnkey'
+      path: '/turnkey'
+      fullPath: '/turnkey'
+      preLoaderRoute: typeof TurnkeyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -425,6 +481,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/turnkey/projects': {
+      id: '/turnkey/projects'
+      path: '/projects'
+      fullPath: '/turnkey/projects'
+      preLoaderRoute: typeof TurnkeyProjectsRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
+    '/turnkey/new': {
+      id: '/turnkey/new'
+      path: '/new'
+      fullPath: '/turnkey/new'
+      preLoaderRoute: typeof TurnkeyNewRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
+    '/turnkey/$id': {
+      id: '/turnkey/$id'
+      path: '/$id'
+      fullPath: '/turnkey/$id'
+      preLoaderRoute: typeof TurnkeyIdRouteImport
+      parentRoute: typeof TurnkeyRoute
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -434,6 +511,21 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface TurnkeyRouteChildren {
+  TurnkeyIdRoute: typeof TurnkeyIdRoute
+  TurnkeyNewRoute: typeof TurnkeyNewRoute
+  TurnkeyProjectsRoute: typeof TurnkeyProjectsRoute
+}
+
+const TurnkeyRouteChildren: TurnkeyRouteChildren = {
+  TurnkeyIdRoute: TurnkeyIdRoute,
+  TurnkeyNewRoute: TurnkeyNewRoute,
+  TurnkeyProjectsRoute: TurnkeyProjectsRoute,
+}
+
+const TurnkeyRouteWithChildren =
+  TurnkeyRoute._addFileChildren(TurnkeyRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -455,6 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SubscriptionRoute: SubscriptionRoute,
   TermsRoute: TermsRoute,
+  TurnkeyRoute: TurnkeyRouteWithChildren,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
