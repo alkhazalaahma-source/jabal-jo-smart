@@ -139,6 +139,54 @@ export type Database = {
         }
         Relationships: []
       }
+      completed_projects: {
+        Row: {
+          area_m2: number | null
+          category: string | null
+          city: string | null
+          created_at: string | null
+          description: string | null
+          description_ar: string | null
+          featured: boolean | null
+          id: string
+          image_url: string | null
+          images: Json | null
+          title: string
+          title_ar: string | null
+          year: number | null
+        }
+        Insert: {
+          area_m2?: number | null
+          category?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          images?: Json | null
+          title: string
+          title_ar?: string | null
+          year?: number | null
+        }
+        Update: {
+          area_m2?: number | null
+          category?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          images?: Json | null
+          title?: string
+          title_ar?: string | null
+          year?: number | null
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string | null
@@ -451,6 +499,30 @@ export type Database = {
           },
         ]
       }
+      order_tracking: {
+        Row: {
+          created_at: string | null
+          id: string
+          note: string | null
+          order_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          note?: string | null
+          order_id: string
+          status: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          note?: string | null
+          order_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string
@@ -651,7 +723,10 @@ export type Database = {
           full_name: string | null
           id: string
           language: string | null
+          loyalty_points: number
           phone: string | null
+          referral_code: string | null
+          referred_by: string | null
           theme: string | null
           updated_at: string
         }
@@ -662,7 +737,10 @@ export type Database = {
           full_name?: string | null
           id: string
           language?: string | null
+          loyalty_points?: number
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
           theme?: string | null
           updated_at?: string
         }
@@ -673,7 +751,10 @@ export type Database = {
           full_name?: string | null
           id?: string
           language?: string | null
+          loyalty_points?: number
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
           theme?: string | null
           updated_at?: string
         }
@@ -802,6 +883,111 @@ export type Database = {
           },
         ]
       }
+      rfq_offers: {
+        Row: {
+          created_at: string | null
+          delivery_days: number | null
+          id: string
+          notes: string | null
+          rfq_id: string
+          status: string | null
+          supplier_id: string | null
+          supplier_name: string
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string | null
+          delivery_days?: number | null
+          id?: string
+          notes?: string | null
+          rfq_id: string
+          status?: string | null
+          supplier_id?: string | null
+          supplier_name: string
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string | null
+          delivery_days?: number | null
+          id?: string
+          notes?: string | null
+          rfq_id?: string
+          status?: string | null
+          supplier_id?: string | null
+          supplier_name?: string
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_offers_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfq_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_offers_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfq_requests: {
+        Row: {
+          city: string
+          created_at: string | null
+          delivery_date: string | null
+          email: string | null
+          full_name: string
+          id: string
+          material: string
+          notes: string | null
+          phone: string
+          quantity: number
+          status: string | null
+          ticket_number: string | null
+          unit: string | null
+          user_id: string | null
+        }
+        Insert: {
+          city: string
+          created_at?: string | null
+          delivery_date?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          material: string
+          notes?: string | null
+          phone: string
+          quantity: number
+          status?: string | null
+          ticket_number?: string | null
+          unit?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          city?: string
+          created_at?: string | null
+          delivery_date?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          material?: string
+          notes?: string | null
+          phone?: string
+          quantity?: number
+          status?: string | null
+          ticket_number?: string | null
+          unit?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           created_at: string | null
@@ -841,6 +1027,60 @@ export type Database = {
           price_yearly?: number
           slug?: string
           sort_order?: number | null
+        }
+        Relationships: []
+      }
+      suppliers: {
+        Row: {
+          category: string | null
+          city: string | null
+          created_at: string | null
+          description: string | null
+          description_ar: string | null
+          email: string | null
+          featured: boolean | null
+          id: string
+          logo_url: string | null
+          name: string
+          name_ar: string | null
+          phone: string | null
+          rating: number | null
+          type: string
+          verified: boolean | null
+        }
+        Insert: {
+          category?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          email?: string | null
+          featured?: boolean | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          name_ar?: string | null
+          phone?: string | null
+          rating?: number | null
+          type?: string
+          verified?: boolean | null
+        }
+        Update: {
+          category?: string | null
+          city?: string | null
+          created_at?: string | null
+          description?: string | null
+          description_ar?: string | null
+          email?: string | null
+          featured?: boolean | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          name_ar?: string | null
+          phone?: string | null
+          rating?: number | null
+          type?: string
+          verified?: boolean | null
         }
         Relationships: []
       }
