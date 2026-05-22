@@ -10,8 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/turnkey")({
   head: () => ({
     meta: [
-      { title: "تسليم مفتاح — JABAL Turnkey Contracting" },
-      { name: "description", content: "اطلب تنفيذ مشروعك بنظام تسليم المفتاح مع نخبة المقاولين المعتمدين في الأردن عبر منصة JABAL." },
+      { title: "ابنِ مشروعك الآن — JABAL Build Your Project" },
+      { name: "description", content: "ابدأ مشروعك الإنشائي بثقة عبر JABAL — من الفكرة إلى التسليم، بإدارة احترافية وشفافية كاملة." },
     ],
   }),
   component: TurnkeyPage,
@@ -49,17 +49,17 @@ function TurnkeyPage() {
       <section className="bg-gradient-to-br from-primary/10 via-background to-accent/10 border-b">
         <div className="container mx-auto px-4 py-14 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-grad text-accent-foreground px-4 py-1.5 rounded-full text-sm font-bold mb-4">
-            <Building2 className="h-4 w-4" /> {lang === "ar" ? "نظام تسليم مفتاح" : "Turnkey System"}
+            <Building2 className="h-4 w-4" /> {lang === "ar" ? "ابنِ مشروعك الآن" : "Build Your Project Now"}
           </div>
           <h1 className="text-3xl md:text-5xl font-black mb-4">
-            {lang === "ar" ? "نبني مشروعك من الألف إلى الياء" : "Your project, fully delivered — turnkey"}
+            {lang === "ar" ? "أخبرنا بما تريد بناءه… ونحن ننفّذه باحترافية" : "Tell us what to build — we deliver it professionally"}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
             {lang === "ar"
-              ? "أرسل تفاصيل مشروعك واستقبل عروضًا من نخبة المقاولين المعتمدين، قارن، اختر، وتابع التنفيذ خطوة بخطوة حتى استلام المفتاح."
-              : "Post your project, receive bids from verified contractors, compare, choose and track execution step by step until handover."}
+              ? "من الفكرة إلى التنفيذ، فريق JABAL يدير مشروعك بأعلى معايير الجودة والشفافية والمصداقية، مع متابعة لحظية وتقارير دورية حتى الاستلام."
+              : "From idea to delivery, JABAL manages your project with top quality, transparency and trust — live tracking and periodic reports until handover."}
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-3 mb-4">
             <Link to="/turnkey/new">
               <Button size="lg" className="bg-orange-grad text-accent-foreground hover:opacity-90">
                 <Plus className="h-5 w-5 me-2" /> {lang === "ar" ? "اطلب مشروعك الآن" : "Request a project"}
@@ -70,6 +70,14 @@ function TurnkeyPage() {
                 {lang === "ar" ? "مشاريعي" : "My Projects"} <Arrow className="h-4 w-4 ms-2" />
               </Button>
             </Link>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 mt-4 text-xs">
+            {(lang === "ar"
+              ? ["✓ شفافية كاملة", "✓ أسعار واضحة", "✓ مقاولون معتمدون", "✓ التزام بالمواعيد", "✓ ضمانات تنفيذ"]
+              : ["✓ Full transparency", "✓ Clear pricing", "✓ Verified contractors", "✓ On-time delivery", "✓ Execution warranty"]
+            ).map((b) => (
+              <span key={b} className="bg-card border rounded-full px-3 py-1 font-semibold">{b}</span>
+            ))}
           </div>
         </div>
       </section>
