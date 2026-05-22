@@ -15,6 +15,7 @@ import { Route as SuppliersRouteImport } from './routes/suppliers'
 import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RfqRouteImport } from './routes/rfq'
+import { Route as ReferralRouteImport } from './routes/referral'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -66,6 +67,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const RfqRoute = RfqRouteImport.update({
   id: '/rfq',
   path: '/rfq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralRoute = ReferralRouteImport.update({
+  id: '/referral',
+  path: '/referral',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
   '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
@@ -227,6 +234,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
   '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
   '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
@@ -290,6 +299,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/projects'
+    | '/referral'
     | '/rfq'
     | '/services'
     | '/subscription'
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/projects'
+    | '/referral'
     | '/rfq'
     | '/services'
     | '/subscription'
@@ -350,6 +361,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/profile'
     | '/projects'
+    | '/referral'
     | '/rfq'
     | '/services'
     | '/subscription'
@@ -381,6 +393,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ProjectsRoute: typeof ProjectsRoute
+  ReferralRoute: typeof ReferralRoute
   RfqRoute: typeof RfqRoute
   ServicesRoute: typeof ServicesRoute
   SubscriptionRoute: typeof SubscriptionRoute
@@ -432,6 +445,13 @@ declare module '@tanstack/react-router' {
       path: '/rfq'
       fullPath: '/rfq'
       preLoaderRoute: typeof RfqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referral': {
+      id: '/referral'
+      path: '/referral'
+      fullPath: '/referral'
+      preLoaderRoute: typeof ReferralRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -635,6 +655,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ProjectsRoute: ProjectsRoute,
+  ReferralRoute: ReferralRoute,
   RfqRoute: RfqRoute,
   ServicesRoute: ServicesRoute,
   SubscriptionRoute: SubscriptionRoute,
