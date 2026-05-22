@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TurnkeyRouteImport } from './routes/turnkey'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SuppliersRouteImport } from './routes/suppliers'
 import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RfqRouteImport } from './routes/rfq'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -44,6 +46,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuppliersRoute = SuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SubscriptionRoute = SubscriptionRouteImport.update({
   id: '/subscription',
   path: '/subscription',
@@ -52,6 +59,11 @@ const SubscriptionRoute = SubscriptionRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfqRoute = RfqRouteImport.update({
+  id: '/rfq',
+  path: '/rfq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -172,8 +184,10 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
@@ -198,8 +212,10 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
@@ -225,8 +241,10 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
   '/product/$id': typeof ProductIdRoute
@@ -253,8 +271,10 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
     | '/product/$id'
@@ -279,8 +299,10 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
     | '/product/$id'
@@ -305,8 +327,10 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
     | '/product/$id'
@@ -332,8 +356,10 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
+  RfqRoute: typeof RfqRoute
   ServicesRoute: typeof ServicesRoute
   SubscriptionRoute: typeof SubscriptionRoute
+  SuppliersRoute: typeof SuppliersRoute
   TermsRoute: typeof TermsRoute
   TurnkeyRoute: typeof TurnkeyRouteWithChildren
   ProductIdRoute: typeof ProductIdRoute
@@ -355,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/suppliers': {
+      id: '/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof SuppliersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/subscription': {
       id: '/subscription'
       path: '/subscription'
@@ -367,6 +400,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfq': {
+      id: '/rfq'
+      path: '/rfq'
+      fullPath: '/rfq'
+      preLoaderRoute: typeof RfqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -544,8 +584,10 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
+  RfqRoute: RfqRoute,
   ServicesRoute: ServicesRoute,
   SubscriptionRoute: SubscriptionRoute,
+  SuppliersRoute: SuppliersRoute,
   TermsRoute: TermsRoute,
   TurnkeyRoute: TurnkeyRouteWithChildren,
   ProductIdRoute: ProductIdRoute,
@@ -553,3 +595,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
