@@ -26,6 +26,9 @@ export function Header() {
     { to: "/inspection", label: lang === "ar" ? "المعاينة" : "Inspection" },
     { to: "/subscription", label: lang === "ar" ? "الاشتراكات" : "Plans" },
     { to: "/turnkey", label: lang === "ar" ? "ابنِ مشروعك" : "Build Now" },
+    { to: "/suppliers", label: lang === "ar" ? "الموردين" : "Suppliers" },
+    { to: "/rfq", label: lang === "ar" ? "عرض سعر" : "RFQ" },
+    { to: "/projects", label: lang === "ar" ? "أعمالنا" : "Projects" },
     { to: "/services", label: t("nav_services") },
     { to: "/companies", label: t("nav_companies") },
     { to: "/ai-chat", label: t("nav_ai") },
@@ -84,6 +87,7 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/orders" })}>{t("nav_orders")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.navigate({ to: "/referral" })}>{lang === "ar" ? "ادعُ صديق" : "Refer a Friend"}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/profile" })}>{t("nav_profile")}</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>

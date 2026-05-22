@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TurnkeyRouteImport } from './routes/turnkey'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SuppliersRouteImport } from './routes/suppliers'
 import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as RfqRouteImport } from './routes/rfq'
+import { Route as ReferralRouteImport } from './routes/referral'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -33,6 +37,7 @@ import { Route as TurnkeyProjectsRouteImport } from './routes/turnkey.projects'
 import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
 import { Route as TurnkeyIdRouteImport } from './routes/turnkey.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
+import { Route as OrdersIdRouteImport } from './routes/orders.$id'
 
 const TurnkeyRoute = TurnkeyRouteImport.update({
   id: '/turnkey',
@@ -44,6 +49,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuppliersRoute = SuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SubscriptionRoute = SubscriptionRouteImport.update({
   id: '/subscription',
   path: '/subscription',
@@ -52,6 +62,21 @@ const SubscriptionRoute = SubscriptionRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfqRoute = RfqRouteImport.update({
+  id: '/rfq',
+  path: '/rfq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralRoute = ReferralRouteImport.update({
+  id: '/referral',
+  path: '/referral',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -154,6 +179,11 @@ const ProductIdRoute = ProductIdRouteImport.update({
   path: '/product/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrdersIdRoute = OrdersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -168,14 +198,19 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -194,14 +229,19 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -221,14 +261,19 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
+  '/projects': typeof ProjectsRoute
+  '/referral': typeof ReferralRoute
+  '/rfq': typeof RfqRoute
   '/services': typeof ServicesRoute
   '/subscription': typeof SubscriptionRoute
+  '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -253,10 +298,15 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/projects'
+    | '/referral'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -279,10 +329,15 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/projects'
+    | '/referral'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -305,10 +360,15 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/privacy'
     | '/profile'
+    | '/projects'
+    | '/referral'
+    | '/rfq'
     | '/services'
     | '/subscription'
+    | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -328,12 +388,16 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   InspectionRoute: typeof InspectionRoute
   MarketplaceRoute: typeof MarketplaceRoute
-  OrdersRoute: typeof OrdersRoute
+  OrdersRoute: typeof OrdersRouteWithChildren
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
+  ProjectsRoute: typeof ProjectsRoute
+  ReferralRoute: typeof ReferralRoute
+  RfqRoute: typeof RfqRoute
   ServicesRoute: typeof ServicesRoute
   SubscriptionRoute: typeof SubscriptionRoute
+  SuppliersRoute: typeof SuppliersRoute
   TermsRoute: typeof TermsRoute
   TurnkeyRoute: typeof TurnkeyRouteWithChildren
   ProductIdRoute: typeof ProductIdRoute
@@ -355,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/suppliers': {
+      id: '/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof SuppliersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/subscription': {
       id: '/subscription'
       path: '/subscription'
@@ -367,6 +438,27 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfq': {
+      id: '/rfq'
+      path: '/rfq'
+      fullPath: '/rfq'
+      preLoaderRoute: typeof RfqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referral': {
+      id: '/referral'
+      path: '/referral'
+      fullPath: '/referral'
+      preLoaderRoute: typeof ReferralRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -509,8 +601,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orders/$id': {
+      id: '/orders/$id'
+      path: '/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof OrdersIdRouteImport
+      parentRoute: typeof OrdersRoute
+    }
   }
 }
+
+interface OrdersRouteChildren {
+  OrdersIdRoute: typeof OrdersIdRoute
+}
+
+const OrdersRouteChildren: OrdersRouteChildren = {
+  OrdersIdRoute: OrdersIdRoute,
+}
+
+const OrdersRouteWithChildren =
+  OrdersRoute._addFileChildren(OrdersRouteChildren)
 
 interface TurnkeyRouteChildren {
   TurnkeyIdRoute: typeof TurnkeyIdRoute
@@ -540,12 +650,16 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   InspectionRoute: InspectionRoute,
   MarketplaceRoute: MarketplaceRoute,
-  OrdersRoute: OrdersRoute,
+  OrdersRoute: OrdersRouteWithChildren,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
+  ProjectsRoute: ProjectsRoute,
+  ReferralRoute: ReferralRoute,
+  RfqRoute: RfqRoute,
   ServicesRoute: ServicesRoute,
   SubscriptionRoute: SubscriptionRoute,
+  SuppliersRoute: SuppliersRoute,
   TermsRoute: TermsRoute,
   TurnkeyRoute: TurnkeyRouteWithChildren,
   ProductIdRoute: ProductIdRoute,
