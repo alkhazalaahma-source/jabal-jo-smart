@@ -25,7 +25,7 @@ export function Header() {
     { to: "/pricing", label: lang === "ar" ? "التسعير الذكي" : "Smart Pricing" },
     { to: "/inspection", label: lang === "ar" ? "المعاينة" : "Inspection" },
     { to: "/subscription", label: lang === "ar" ? "الاشتراكات" : "Plans" },
-    { to: "/turnkey", label: lang === "ar" ? "تسليم مفتاح" : "Turnkey" },
+    { to: "/turnkey", label: lang === "ar" ? "ابنِ مشروعك" : "Build Now" },
     { to: "/services", label: t("nav_services") },
     { to: "/companies", label: t("nav_companies") },
     { to: "/ai-chat", label: t("nav_ai") },
@@ -37,7 +37,9 @@ export function Header() {
     <header className="sticky top-0 z-50 glass border-b">
       <div className="container mx-auto flex h-16 items-center justify-between gap-3 px-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt="JABAL" className="h-10 w-auto" />
+          <span className="inline-flex items-center justify-center bg-white rounded-lg p-1 shadow-sm ring-1 ring-black/5">
+            <img src={logo} alt="JABAL" className="h-9 w-auto" />
+          </span>
           <span className="hidden sm:block font-bold text-lg">
             JABAL <span className="text-orange-grad">جبل</span>
           </span>

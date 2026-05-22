@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/turnkey/new")({
-  head: () => ({ meta: [{ title: "طلب مشروع جديد — JABAL Turnkey" }] }),
+  head: () => ({ meta: [{ title: "ابدأ مشروعك — JABAL Build Your Project" }] }),
   component: NewProjectPage,
 });
 
@@ -79,10 +79,10 @@ function NewProjectPage() {
       <div className="container mx-auto px-4 py-10 max-w-3xl">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 bg-orange-grad text-accent-foreground px-4 py-1.5 rounded-full text-sm font-bold mb-3">
-            <Building2 className="h-4 w-4" /> {lang === "ar" ? "تسليم مفتاح" : "Turnkey"}
+            <Building2 className="h-4 w-4" /> {lang === "ar" ? "ابنِ مشروعك الآن" : "Build Your Project Now"}
           </div>
-          <h1 className="text-3xl font-black">{lang === "ar" ? "اطلب تنفيذ مشروعك" : "Request your project"}</h1>
-          <p className="text-muted-foreground mt-2 text-sm">{lang === "ar" ? "املأ التفاصيل وسيصلك عروض المقاولين خلال 24 ساعة" : "Fill the details and receive contractor bids within 24h"}</p>
+          <h1 className="text-3xl font-black">{lang === "ar" ? "أخبرنا بتفاصيل مشروعك" : "Tell us about your project"}</h1>
+          <p className="text-muted-foreground mt-2 text-sm">{lang === "ar" ? "ندرس طلبك ونعود إليك بعرض تفصيلي خلال 24 ساعة" : "We'll review and reply with a detailed proposal within 24h"}</p>
         </div>
 
         <form onSubmit={submit} className="bg-card border rounded-2xl p-6 shadow-card space-y-5">
