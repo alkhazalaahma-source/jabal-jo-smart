@@ -38,17 +38,20 @@ function Orders() {
         ) : (
           <div className="space-y-3">
             {orders.map((o) => (
-              <div key={o.id} className="bg-card border rounded-xl p-5 flex flex-wrap justify-between gap-4">
-                <div>
-                  <div className="font-bold">{o.order_number}</div>
-                  <div className="text-xs text-muted-foreground mt-1">{new Date(o.created_at).toLocaleString(lang === "ar" ? "ar-JO" : "en-US")}</div>
-                  <div className="text-xs text-muted-foreground">{o.city}</div>
+              <Link key={o.id} to="/orders/$id" params={{ id: o.id }} className="block bg-card border rounded-xl p-5 hover:border-accent transition-colors">
+                <div className="flex flex-wrap justify-between gap-4">
+                  <div>
+                    <div className="font-bold">{o.order_number}</div>
+                    <div className="text-xs text-muted-foreground mt-1">{new Date(o.created_at).toLocaleString(lang === "ar" ? "ar-JO" : "en-US")}</div>
+                    <div className="text-xs text-muted-foreground">{o.city}</div>
+                  </div>
+                  <div className="text-end">
+                    <div className="text-xl font-black text-orange-grad">{Number(o.total).toFixed(2)} {lang === "ar" ? "د.أ" : "JOD"}</div>
+                    <Badge className="mt-1">{o.status}</Badge>
+                    <div className="text-xs text-accent mt-1">{lang === "ar" ? "تتبع الطلب ←" : "Track →"}</div>
+                  </div>
                 </div>
-                <div className="text-end">
-                  <div className="text-xl font-black text-orange-grad">{Number(o.total).toFixed(2)} {lang === "ar" ? "د.أ" : "JOD"}</div>
-                  <Badge className="mt-1">{o.status}</Badge>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
