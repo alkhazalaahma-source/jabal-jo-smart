@@ -35,6 +35,7 @@ import { Route as TurnkeyProjectsRouteImport } from './routes/turnkey.projects'
 import { Route as TurnkeyNewRouteImport } from './routes/turnkey.new'
 import { Route as TurnkeyIdRouteImport } from './routes/turnkey.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
+import { Route as OrdersIdRouteImport } from './routes/orders.$id'
 
 const TurnkeyRoute = TurnkeyRouteImport.update({
   id: '/turnkey',
@@ -166,6 +167,11 @@ const ProductIdRoute = ProductIdRouteImport.update({
   path: '/product/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrdersIdRoute = OrdersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -180,7 +186,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -208,7 +215,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -237,7 +245,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
-  '/orders': typeof OrdersRoute
+  '/orders': typeof OrdersRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
   '/turnkey/new': typeof TurnkeyNewRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -333,6 +344,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
     | '/turnkey/new'
@@ -352,7 +364,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   InspectionRoute: typeof InspectionRoute
   MarketplaceRoute: typeof MarketplaceRoute
-  OrdersRoute: typeof OrdersRoute
+  OrdersRoute: typeof OrdersRouteWithChildren
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
@@ -549,8 +561,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orders/$id': {
+      id: '/orders/$id'
+      path: '/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof OrdersIdRouteImport
+      parentRoute: typeof OrdersRoute
+    }
   }
 }
+
+interface OrdersRouteChildren {
+  OrdersIdRoute: typeof OrdersIdRoute
+}
+
+const OrdersRouteChildren: OrdersRouteChildren = {
+  OrdersIdRoute: OrdersIdRoute,
+}
+
+const OrdersRouteWithChildren =
+  OrdersRoute._addFileChildren(OrdersRouteChildren)
 
 interface TurnkeyRouteChildren {
   TurnkeyIdRoute: typeof TurnkeyIdRoute
@@ -580,7 +610,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   InspectionRoute: InspectionRoute,
   MarketplaceRoute: MarketplaceRoute,
-  OrdersRoute: OrdersRoute,
+  OrdersRoute: OrdersRouteWithChildren,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
