@@ -88,6 +88,8 @@ export function Header() {
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/orders" })}>{t("nav_orders")}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/referral" })}>{lang === "ar" ? "ادعُ صديق" : "Refer a Friend"}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/profile" })}>{t("nav_profile")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.navigate({ to: "/security" })}>{lang === "ar" ? "الأمان (2FA)" : "Security (2FA)"}</DropdownMenuItem>
+
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="h-4 w-4 mr-2" /> {t("logout")}
