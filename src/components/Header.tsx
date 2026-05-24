@@ -40,13 +40,12 @@ export function Header() {
     <header className="sticky top-0 z-50 glass border-b">
       <div className="container mx-auto flex h-16 items-center justify-between gap-3 px-4">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <span className="inline-flex items-center justify-center bg-white rounded-lg p-1 shadow-sm ring-1 ring-black/5">
-            <img src={logo} alt="JABAL" className="h-9 w-auto" />
-          </span>
+          <img src={logo} alt="JABAL" className="h-10 w-auto" />
           <span className="hidden sm:block font-bold text-lg">
             JABAL <span className="text-orange-grad">جبل</span>
           </span>
         </Link>
+
 
         <nav className="hidden lg:flex items-center gap-1">
           {nav.map((n) => (
@@ -89,6 +88,8 @@ export function Header() {
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/orders" })}>{t("nav_orders")}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/referral" })}>{lang === "ar" ? "ادعُ صديق" : "Refer a Friend"}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/profile" })}>{t("nav_profile")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.navigate({ to: "/security" })}>{lang === "ar" ? "الأمان (2FA)" : "Security (2FA)"}</DropdownMenuItem>
+
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="h-4 w-4 mr-2" /> {t("logout")}

@@ -29,15 +29,45 @@ function AuthPage() {
   const [login, setLogin] = useState({ email: "", password: "" });
   const [signup, setSignup] = useState({ full_name: "", email: "", phone: "", password: "" });
 
-  useEffect(() => { if (user) nav({ to: redirect as never }); }, [user, redirect, nav]);
+  const [mfa, setMfa] = useState<{ factorId: string; challengeId: string } | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+
+  useEffect(() => { if (user && !mfa) nav({ to: redirect as never }); }, [user, redirect, nav, mfa]);
+
+  const checkMfa = async () => {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal?.nextLevel === "aal2" && aal.currentLevel === "aal1") {
+      const { data: list } = await supabase.auth.mfa.listFactors();
+      const totp = list?.totp?.[0];
+      if (totp) {
+        const { data: ch, error } = await supabase.auth.mfa.challenge({ factorId: totp.id });
+        if (error || !ch) return toast.error(error?.message || "MFA challenge failed");
+        setMfa({ factorId: totp.id, challengeId: ch.id });
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const verifyMfa = async () => {
+    if (!mfa) return;
+    setLoading(true);
+    const { error } = await supabase.auth.mfa.verify({ factorId: mfa.factorId, challengeId: mfa.challengeId, code: mfaCode });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success(lang === "ar" ? "تم التحقق ✓" : "Verified ✓");
+    setMfa(null); setMfaCode("");
+  };
 
   const doLogin = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true);
     const { error } = await supabase.auth.signInWithPassword(login);
+    if (error) { setLoading(false); return toast.error(error.message); }
+    const needsMfa = await checkMfa();
     setLoading(false);
-    if (error) return toast.error(error.message);
-    toast.success(lang === "ar" ? "تم تسجيل الدخول" : "Signed in");
+    if (!needsMfa) toast.success(lang === "ar" ? "تم تسجيل الدخول" : "Signed in");
   };
+
 
   const doSignup = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true);
@@ -69,6 +99,20 @@ function AuthPage() {
             <h1 className="text-2xl font-black">JABAL</h1>
             <p className="text-sm text-muted-foreground mt-1">{t("brand_tagline")}</p>
           </div>
+
+          {mfa ? (
+            <div className="space-y-4">
+              <div className="text-center">
+                <h2 className="text-lg font-bold">{lang === "ar" ? "التحقق بخطوتين" : "Two-Factor Verification"}</h2>
+                <p className="text-sm text-muted-foreground mt-1">{lang === "ar" ? "أدخل الرمز من تطبيق المصادقة" : "Enter the code from your authenticator app"}</p>
+              </div>
+              <Input maxLength={6} value={mfaCode} onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ""))} placeholder="123456" className="text-center text-2xl tracking-widest font-mono" autoFocus />
+              <Button onClick={verifyMfa} disabled={loading || mfaCode.length !== 6} className="w-full bg-orange-grad text-accent-foreground hover:opacity-90">{loading ? t("loading") : (lang === "ar" ? "تحقق" : "Verify")}</Button>
+              <Button variant="ghost" className="w-full" onClick={() => { setMfa(null); setMfaCode(""); supabase.auth.signOut(); }}>{lang === "ar" ? "إلغاء" : "Cancel"}</Button>
+            </div>
+          ) : (
+            <>
+
 
           <div className="space-y-2">
             <Button variant="outline" className="w-full" onClick={doGoogle}>
@@ -108,7 +152,10 @@ function AuthPage() {
           <p className="text-xs text-muted-foreground text-center mt-5">
             <Link to="/terms" className="hover:text-foreground">{t("terms")}</Link> · <Link to="/privacy" className="hover:text-foreground">{t("privacy")}</Link>
           </p>
+            </>
+          )}
         </div>
+
       </div>
     </Layout>
   );
