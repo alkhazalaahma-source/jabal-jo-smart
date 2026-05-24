@@ -152,7 +152,10 @@ function AuthPage() {
           <p className="text-xs text-muted-foreground text-center mt-5">
             <Link to="/terms" className="hover:text-foreground">{t("terms")}</Link> · <Link to="/privacy" className="hover:text-foreground">{t("privacy")}</Link>
           </p>
+            </>
+          )}
         </div>
+
       </div>
     </Layout>
   );
