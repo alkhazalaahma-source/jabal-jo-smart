@@ -9,9 +9,8 @@ export function Footer() {
     <footer className="border-t bg-steel mt-20">
       <div className="container mx-auto px-4 py-12 grid gap-8 md:grid-cols-4">
         <div className="space-y-3">
-          <span className="inline-flex items-center justify-center bg-white rounded-lg p-1.5 shadow-sm ring-1 ring-black/5 w-fit">
-            <img src={logo} alt="JABAL" className="h-10" />
-          </span>
+          <img src={logo} alt="JABAL" className="h-12 w-auto" />
+
           <p className="text-sm text-muted-foreground">
             {lang === "ar"
               ? "أكبر منصة رقمية لمواد البناء والخدمات الهندسية في الأردن."
