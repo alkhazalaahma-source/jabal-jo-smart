@@ -988,6 +988,75 @@ export type Database = {
         }
         Relationships: []
       }
+      service_providers: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          bio_ar: string | null
+          city: string | null
+          created_at: string
+          email: string | null
+          experience_years: number | null
+          featured: boolean | null
+          hourly_rate: number | null
+          id: string
+          name: string
+          name_ar: string | null
+          phone: string | null
+          rating: number | null
+          rating_count: number | null
+          service_slug: string | null
+          specialty: string
+          specialty_ar: string | null
+          verified: boolean | null
+          whatsapp: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          bio_ar?: string | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          experience_years?: number | null
+          featured?: boolean | null
+          hourly_rate?: number | null
+          id?: string
+          name: string
+          name_ar?: string | null
+          phone?: string | null
+          rating?: number | null
+          rating_count?: number | null
+          service_slug?: string | null
+          specialty: string
+          specialty_ar?: string | null
+          verified?: boolean | null
+          whatsapp?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          bio_ar?: string | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          experience_years?: number | null
+          featured?: boolean | null
+          hourly_rate?: number | null
+          id?: string
+          name?: string
+          name_ar?: string | null
+          phone?: string | null
+          rating?: number | null
+          rating_count?: number | null
+          service_slug?: string | null
+          specialty?: string
+          specialty_ar?: string | null
+          verified?: boolean | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           created_at: string | null
