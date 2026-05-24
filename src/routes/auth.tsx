@@ -29,15 +29,45 @@ function AuthPage() {
   const [login, setLogin] = useState({ email: "", password: "" });
   const [signup, setSignup] = useState({ full_name: "", email: "", phone: "", password: "" });
 
-  useEffect(() => { if (user) nav({ to: redirect as never }); }, [user, redirect, nav]);
+  const [mfa, setMfa] = useState<{ factorId: string; challengeId: string } | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
+
+  useEffect(() => { if (user && !mfa) nav({ to: redirect as never }); }, [user, redirect, nav, mfa]);
+
+  const checkMfa = async () => {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal?.nextLevel === "aal2" && aal.currentLevel === "aal1") {
+      const { data: list } = await supabase.auth.mfa.listFactors();
+      const totp = list?.totp?.[0];
+      if (totp) {
+        const { data: ch, error } = await supabase.auth.mfa.challenge({ factorId: totp.id });
+        if (error || !ch) return toast.error(error?.message || "MFA challenge failed");
+        setMfa({ factorId: totp.id, challengeId: ch.id });
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const verifyMfa = async () => {
+    if (!mfa) return;
+    setLoading(true);
+    const { error } = await supabase.auth.mfa.verify({ factorId: mfa.factorId, challengeId: mfa.challengeId, code: mfaCode });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success(lang === "ar" ? "تم التحقق ✓" : "Verified ✓");
+    setMfa(null); setMfaCode("");
+  };
 
   const doLogin = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true);
     const { error } = await supabase.auth.signInWithPassword(login);
+    if (error) { setLoading(false); return toast.error(error.message); }
+    const needsMfa = await checkMfa();
     setLoading(false);
-    if (error) return toast.error(error.message);
-    toast.success(lang === "ar" ? "تم تسجيل الدخول" : "Signed in");
+    if (!needsMfa) toast.success(lang === "ar" ? "تم تسجيل الدخول" : "Signed in");
   };
+
 
   const doSignup = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true);
