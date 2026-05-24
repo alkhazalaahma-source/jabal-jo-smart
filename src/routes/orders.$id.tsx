@@ -73,7 +73,17 @@ function OrderDetail() {
               );
             })}
           </div>
+          <p className="text-xs text-muted-foreground text-center mt-5">
+            {order.status === "delivered"
+              ? (lang === "ar" ? "✓ تم التسليم بنجاح" : "✓ Delivered successfully")
+              : order.status === "out_for_delivery"
+              ? (lang === "ar" ? "🚚 وصول متوقع خلال 1–3 ساعات" : "🚚 Expected arrival in 1–3 hours")
+              : order.status === "preparing"
+              ? (lang === "ar" ? "📦 وصول متوقع خلال 24 ساعة" : "📦 Expected within 24 hours")
+              : (lang === "ar" ? "⏱ سيتم التأكيد خلال 30 دقيقة" : "⏱ Will be confirmed within 30 minutes")}
+          </p>
         </div>
+
 
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-card border rounded-xl p-5">
