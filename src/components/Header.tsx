@@ -15,7 +15,6 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const { theme, toggle } = useTheme();
   const { user, signOut } = useAuth();
-  const { count } = useCart();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
