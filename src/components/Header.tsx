@@ -67,16 +67,7 @@ export function Header() {
           <Button variant="ghost" size="icon" onClick={toggle} title="Theme">
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Link to="/cart" className="relative">
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-5 w-5" />
-              {count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-orange-grad text-[10px] font-bold rounded-full h-5 min-w-5 px-1 flex items-center justify-center text-accent-foreground">
-                  {count}
-                </span>
-              )}
-            </Button>
-          </Link>
+          <MiniCart />
 
           {user ? (
             <DropdownMenu>
