@@ -1,12 +1,12 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { Globe, Moon, Sun, ShoppingCart, User, LogOut, Menu, X, Sparkles } from "lucide-react";
+import { Globe, Moon, Sun, User, LogOut, Menu, X, Sparkles } from "lucide-react";
 import logo from "@/assets/jabal-logo.png";
 import { useI18n } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/lib/use-auth";
-import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
+import { MiniCart } from "@/components/MiniCart";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
@@ -15,7 +15,6 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const { theme, toggle } = useTheme();
   const { user, signOut } = useAuth();
-  const { count } = useCart();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -68,16 +67,7 @@ export function Header() {
           <Button variant="ghost" size="icon" onClick={toggle} title="Theme">
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Link to="/cart" className="relative">
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-5 w-5" />
-              {count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-orange-grad text-[10px] font-bold rounded-full h-5 min-w-5 px-1 flex items-center justify-center text-accent-foreground">
-                  {count}
-                </span>
-              )}
-            </Button>
-          </Link>
+          <MiniCart />
 
           {user ? (
             <DropdownMenu>
