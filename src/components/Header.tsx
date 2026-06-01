@@ -1,12 +1,12 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { Globe, Moon, Sun, ShoppingCart, User, LogOut, Menu, X, Sparkles } from "lucide-react";
+import { Globe, Moon, Sun, User, LogOut, Menu, X, Sparkles } from "lucide-react";
 import logo from "@/assets/jabal-logo.png";
 import { useI18n } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/lib/use-auth";
-import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
+import { MiniCart } from "@/components/MiniCart";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
