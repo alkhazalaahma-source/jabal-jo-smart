@@ -155,6 +155,17 @@ function NewProjectPage() {
             <Textarea rows={2} value={f.plans_urls} onChange={(e) => set("plans_urls", e.target.value)} placeholder="https://..." dir="ltr" />
           </div>
 
+          {estimate > 0 && (
+            <div className="bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-accent/30 rounded-2xl p-5 flex items-center gap-4">
+              <Calculator className="h-10 w-10 text-orange-grad shrink-0" />
+              <div className="flex-1">
+                <div className="text-xs text-muted-foreground">{lang === "ar" ? "تقدير تقريبي للتكلفة (قابل للتعديل حسب العروض)" : "Estimated cost (adjusts with bids)"}</div>
+                <div className="text-2xl font-black text-orange-grad">{estimate.toLocaleString()} JOD</div>
+                <div className="text-[11px] text-muted-foreground">{lang === "ar" ? "تقدير أوّلي بناءً على المساحة ومستوى التشطيب — السعر النهائي من المقاول" : "Initial estimate based on area & finish — final price comes from contractor bids"}</div>
+              </div>
+            </div>
+          )}
+
           <Button type="submit" disabled={saving} className="w-full bg-orange-grad text-accent-foreground" size="lg">
             <Send className="h-4 w-4 me-2" /> {saving ? (lang === "ar" ? "جارٍ الإرسال..." : "Submitting...") : (lang === "ar" ? "إرسال المشروع" : "Submit project")}
           </Button>
