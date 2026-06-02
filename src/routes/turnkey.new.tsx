@@ -55,6 +55,9 @@ function NewProjectPage() {
     }
     setSaving(true);
     const photos = f.plans_urls.split(/[\s,]+/).filter(Boolean);
+    const finalType = f.project_type === "other" && f.custom_type.trim()
+      ? f.custom_type.trim().slice(0, 80)
+      : f.project_type;
     const { data, error } = await supabase
       .from("turnkey_projects" as never)
       .insert({
@@ -62,7 +65,7 @@ function NewProjectPage() {
         full_name: f.full_name,
         phone: f.phone,
         email: f.email || null,
-        project_type: f.project_type,
+        project_type: finalType,
         area_m2: Number(f.area_m2),
         floors: Number(f.floors || "1"),
         city: f.city,
@@ -81,6 +84,7 @@ function NewProjectPage() {
     toast.success(lang === "ar" ? `تم إنشاء المشروع رقم ${row.project_number}` : `Project ${row.project_number} created`);
     nav({ to: "/turnkey/$id", params: { id: row.id } });
   };
+
 
   return (
     <Layout>
