@@ -106,16 +106,25 @@ function NewProjectPage() {
               <Label>{lang === "ar" ? "نوع المشروع *" : "Project type *"}</Label>
               <Select value={f.project_type} onValueChange={(v) => set("project_type", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="residential">{lang === "ar" ? "منزل سكني" : "Residential house"}</SelectItem>
-                  <SelectItem value="villa">{lang === "ar" ? "فيلا" : "Villa"}</SelectItem>
-                  <SelectItem value="building">{lang === "ar" ? "عمارة" : "Building"}</SelectItem>
-                  <SelectItem value="commercial">{lang === "ar" ? "محل تجاري" : "Commercial"}</SelectItem>
-                  <SelectItem value="finishing">{lang === "ar" ? "تشطيب كامل" : "Full finishing"}</SelectItem>
-                  <SelectItem value="renovation">{lang === "ar" ? "ترميم/صيانة" : "Renovation"}</SelectItem>
+                <SelectContent className="max-h-80">
+                  {PROJECT_TYPES.map((pt) => (
+                    <SelectItem key={pt.value} value={pt.value}>
+                      <span className="me-2">{pt.icon}</span>{lang === "ar" ? pt.ar : pt.en}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
+            {f.project_type === "other" && (
+              <div className="md:col-span-2">
+                <Label>{lang === "ar" ? "اكتب نوع مشروعك *" : "Describe your project type *"}</Label>
+                <Input
+                  value={f.custom_type}
+                  onChange={(e) => set("custom_type", e.target.value)}
+                  placeholder={lang === "ar" ? "مثال: حظيرة دواجن، مرسم..." : "e.g. Poultry farm, art studio..."}
+                />
+              </div>
+            )}
             <div><Label>{lang === "ar" ? "المساحة (م²) *" : "Area (m²) *"}</Label><Input type="number" value={f.area_m2} onChange={(e) => set("area_m2", e.target.value)} /></div>
             <div><Label>{lang === "ar" ? "عدد الطوابق" : "Floors"}</Label><Input type="number" min="1" value={f.floors} onChange={(e) => set("floors", e.target.value)} /></div>
             <div><Label>{lang === "ar" ? "المدينة *" : "City *"}</Label><Input value={f.city} onChange={(e) => set("city", e.target.value)} placeholder={lang === "ar" ? "عمّان، إربد..." : "Amman, Irbid..."} /></div>
