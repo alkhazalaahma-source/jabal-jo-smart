@@ -26,11 +26,30 @@ export function ProductCard({ product }: { product: Product }) {
   const name = lang === "ar" ? product.name_ar : product.name_en;
   const unit = lang === "ar" ? product.unit_ar : product.unit_en;
 
+  // Optimize Unsplash images for fast mobile loading (webp + responsive sizes)
+  const optimize = (url: string, w: number) => {
+    if (!url.includes("unsplash.com")) return url;
+    const base = url.split("?")[0];
+    return `${base}?auto=format&fit=crop&q=70&w=${w}`;
+  };
+  const imgSrc = product.image_url ? optimize(product.image_url, 400) : null;
+  const imgSrcSet = product.image_url
+    ? `${optimize(product.image_url, 300)} 300w, ${optimize(product.image_url, 500)} 500w, ${optimize(product.image_url, 800)} 800w`
+    : undefined;
+
   return (
     <div className="group bg-card rounded-xl border shadow-card overflow-hidden hover:shadow-elegant transition-all hover:-translate-y-1">
       <Link to="/product/$id" params={{ id: product.id }} className="block relative aspect-square bg-muted overflow-hidden">
-        {product.image_url ? (
-          <img src={product.image_url} alt={name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        {imgSrc ? (
+          <img
+            src={imgSrc}
+            srcSet={imgSrcSet}
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            alt={name}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         ) : (
           <div className="w-full h-full bg-steel" />
         )}
