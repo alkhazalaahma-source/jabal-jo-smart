@@ -59,7 +59,13 @@ function ProductDetail() {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-muted rounded-2xl aspect-square overflow-hidden">
             {p.image_url ? (
-              <img src={p.image_url} alt={name} className="w-full h-full object-cover" />
+              <img
+                src={p.image_url.includes("unsplash.com") ? `${p.image_url.split("?")[0]}?auto=format&fit=crop&q=80&w=900` : p.image_url}
+                alt={name}
+                fetchPriority="high"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full bg-steel" />
             )}
