@@ -87,13 +87,32 @@ function ProjectDetail() {
   };
 
   const acceptBid = async (bid: Bid) => {
-    if (!confirm(lang === "ar" ? "تأكيد قبول هذا العرض؟" : "Accept this bid?")) return;
+    if (!confirm(lang === "ar" ? "تأكيد قبول هذا العرض؟ سيتم إنشاء جدول الدفعات تلقائياً." : "Accept this bid? A payment schedule will be auto-created.")) return;
     const { error: e1 } = await supabase.from("turnkey_projects" as never).update({
       accepted_bid_id: bid.id, assigned_contractor_id: bid.contractor_id, status: "in_progress",
     } as never).eq("id", id);
     if (e1) return toast.error(e1.message);
     await supabase.from("contractor_bids" as never).update({ status: "accepted" } as never).eq("id", bid.id);
-    toast.success(lang === "ar" ? "تم قبول العرض!" : "Bid accepted!");
+
+    // Auto-generate 4-milestone payment schedule (25% each)
+    const today = new Date();
+    const addDays = (d: number) => {
+      const dt = new Date(today);
+      dt.setDate(dt.getDate() + d);
+      return dt.toISOString().slice(0, 10);
+    };
+    const quarter = Math.round((bid.price / 4) * 100) / 100;
+    const milestones = [
+      { label: lang === "ar" ? "دفعة أولى — بدء العمل" : "1st — Project start", amount: quarter, due_date: addDays(0) },
+      { label: lang === "ar" ? "دفعة ثانية — الأساسات والهيكل" : "2nd — Foundation & structure", amount: quarter, due_date: addDays(Math.round(bid.duration_days * 0.33)) },
+      { label: lang === "ar" ? "دفعة ثالثة — التشطيبات" : "3rd — Finishing", amount: quarter, due_date: addDays(Math.round(bid.duration_days * 0.66)) },
+      { label: lang === "ar" ? "دفعة نهائية — التسليم" : "Final — Handover", amount: bid.price - quarter * 3, due_date: addDays(bid.duration_days) },
+    ];
+    await supabase.from("project_payments" as never).insert(
+      milestones.map((m) => ({ project_id: id, ...m, status: "pending" })) as never,
+    );
+
+    toast.success(lang === "ar" ? "تم قبول العرض وإنشاء جدول الدفعات!" : "Bid accepted & payment schedule created!");
     load();
   };
 
