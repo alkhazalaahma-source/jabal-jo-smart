@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { PROJECT_TYPES } from "@/lib/project-types";
 
 export const Route = createFileRoute("/turnkey")({
   head: () => ({
@@ -95,6 +96,28 @@ function TurnkeyPage() {
               <div className="font-bold">{lang === "ar" ? s.ar : s.en}</div>
             </div>
           ))}
+        </div>
+
+        {/* Visual catalog — what can I build? */}
+        <div className="mb-10">
+          <div className="flex items-end justify-between mb-4 flex-wrap gap-2">
+            <div>
+              <h2 className="text-2xl font-black">{lang === "ar" ? "ماذا تريد أن تبني؟" : "What do you want to build?"}</h2>
+              <p className="text-sm text-muted-foreground">{lang === "ar" ? "اختر نوع مشروعك وابدأ فوراً — أي شيء ممكن" : "Pick any project type and start instantly — anything is possible"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-2.5">
+            {PROJECT_TYPES.map((pt) => (
+              <Link
+                key={pt.value}
+                to="/turnkey/new"
+                className="group bg-card border rounded-xl p-3 text-center hover:shadow-elegant hover:border-accent hover:-translate-y-0.5 transition-all"
+              >
+                <div className="text-3xl mb-1 group-hover:scale-110 transition-transform">{pt.icon}</div>
+                <div className="text-[11px] font-semibold leading-tight line-clamp-2">{lang === "ar" ? pt.ar : pt.en}</div>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="flex items-end justify-between gap-4 mb-5 flex-wrap">

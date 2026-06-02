@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Building2, Send } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Building2, Send, Calculator } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
+import { PROJECT_TYPES, estimateCost } from "@/lib/project-types";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/turnkey/new")({
@@ -24,7 +25,7 @@ function NewProjectPage() {
   const [saving, setSaving] = useState(false);
   const [f, setF] = useState({
     full_name: "", phone: "", email: "",
-    project_type: "residential", area_m2: "", floors: "1",
+    project_type: "residential", custom_type: "", area_m2: "", floors: "1",
     city: "", address: "",
     budget_min: "", budget_max: "",
     finish_level: "standard",
@@ -33,6 +34,13 @@ function NewProjectPage() {
   });
 
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
+
+  const estimate = useMemo(() => {
+    const a = Number(f.area_m2);
+    if (!a || a <= 0) return 0;
+    return estimateCost(f.project_type, a, Number(f.floors) || 1, f.finish_level);
+  }, [f.project_type, f.area_m2, f.floors, f.finish_level]);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +55,9 @@ function NewProjectPage() {
     }
     setSaving(true);
     const photos = f.plans_urls.split(/[\s,]+/).filter(Boolean);
+    const finalType = f.project_type === "other" && f.custom_type.trim()
+      ? f.custom_type.trim().slice(0, 80)
+      : f.project_type;
     const { data, error } = await supabase
       .from("turnkey_projects" as never)
       .insert({
@@ -54,7 +65,7 @@ function NewProjectPage() {
         full_name: f.full_name,
         phone: f.phone,
         email: f.email || null,
-        project_type: f.project_type,
+        project_type: finalType,
         area_m2: Number(f.area_m2),
         floors: Number(f.floors || "1"),
         city: f.city,
@@ -73,6 +84,7 @@ function NewProjectPage() {
     toast.success(lang === "ar" ? `تم إنشاء المشروع رقم ${row.project_number}` : `Project ${row.project_number} created`);
     nav({ to: "/turnkey/$id", params: { id: row.id } });
   };
+
 
   return (
     <Layout>
@@ -94,16 +106,25 @@ function NewProjectPage() {
               <Label>{lang === "ar" ? "نوع المشروع *" : "Project type *"}</Label>
               <Select value={f.project_type} onValueChange={(v) => set("project_type", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="residential">{lang === "ar" ? "منزل سكني" : "Residential house"}</SelectItem>
-                  <SelectItem value="villa">{lang === "ar" ? "فيلا" : "Villa"}</SelectItem>
-                  <SelectItem value="building">{lang === "ar" ? "عمارة" : "Building"}</SelectItem>
-                  <SelectItem value="commercial">{lang === "ar" ? "محل تجاري" : "Commercial"}</SelectItem>
-                  <SelectItem value="finishing">{lang === "ar" ? "تشطيب كامل" : "Full finishing"}</SelectItem>
-                  <SelectItem value="renovation">{lang === "ar" ? "ترميم/صيانة" : "Renovation"}</SelectItem>
+                <SelectContent className="max-h-80">
+                  {PROJECT_TYPES.map((pt) => (
+                    <SelectItem key={pt.value} value={pt.value}>
+                      <span className="me-2">{pt.icon}</span>{lang === "ar" ? pt.ar : pt.en}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
+            {f.project_type === "other" && (
+              <div className="md:col-span-2">
+                <Label>{lang === "ar" ? "اكتب نوع مشروعك *" : "Describe your project type *"}</Label>
+                <Input
+                  value={f.custom_type}
+                  onChange={(e) => set("custom_type", e.target.value)}
+                  placeholder={lang === "ar" ? "مثال: حظيرة دواجن، مرسم..." : "e.g. Poultry farm, art studio..."}
+                />
+              </div>
+            )}
             <div><Label>{lang === "ar" ? "المساحة (م²) *" : "Area (m²) *"}</Label><Input type="number" value={f.area_m2} onChange={(e) => set("area_m2", e.target.value)} /></div>
             <div><Label>{lang === "ar" ? "عدد الطوابق" : "Floors"}</Label><Input type="number" min="1" value={f.floors} onChange={(e) => set("floors", e.target.value)} /></div>
             <div><Label>{lang === "ar" ? "المدينة *" : "City *"}</Label><Input value={f.city} onChange={(e) => set("city", e.target.value)} placeholder={lang === "ar" ? "عمّان، إربد..." : "Amman, Irbid..."} /></div>
@@ -133,6 +154,17 @@ function NewProjectPage() {
             <Label>{lang === "ar" ? "روابط المخططات/الصور (مفصولة بفاصلة)" : "Plans/photos URLs (comma separated)"}</Label>
             <Textarea rows={2} value={f.plans_urls} onChange={(e) => set("plans_urls", e.target.value)} placeholder="https://..." dir="ltr" />
           </div>
+
+          {estimate > 0 && (
+            <div className="bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-accent/30 rounded-2xl p-5 flex items-center gap-4">
+              <Calculator className="h-10 w-10 text-orange-grad shrink-0" />
+              <div className="flex-1">
+                <div className="text-xs text-muted-foreground">{lang === "ar" ? "تقدير تقريبي للتكلفة (قابل للتعديل حسب العروض)" : "Estimated cost (adjusts with bids)"}</div>
+                <div className="text-2xl font-black text-orange-grad">{estimate.toLocaleString()} JOD</div>
+                <div className="text-[11px] text-muted-foreground">{lang === "ar" ? "تقدير أوّلي بناءً على المساحة ومستوى التشطيب — السعر النهائي من المقاول" : "Initial estimate based on area & finish — final price comes from contractor bids"}</div>
+              </div>
+            </div>
+          )}
 
           <Button type="submit" disabled={saving} className="w-full bg-orange-grad text-accent-foreground" size="lg">
             <Send className="h-4 w-4 me-2" /> {saving ? (lang === "ar" ? "جارٍ الإرسال..." : "Submitting...") : (lang === "ar" ? "إرسال المشروع" : "Submit project")}
