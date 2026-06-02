@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Building2, Send } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Building2, Send, Calculator } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
+import { PROJECT_TYPES, estimateCost } from "@/lib/project-types";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/turnkey/new")({
@@ -24,7 +25,7 @@ function NewProjectPage() {
   const [saving, setSaving] = useState(false);
   const [f, setF] = useState({
     full_name: "", phone: "", email: "",
-    project_type: "residential", area_m2: "", floors: "1",
+    project_type: "residential", custom_type: "", area_m2: "", floors: "1",
     city: "", address: "",
     budget_min: "", budget_max: "",
     finish_level: "standard",
@@ -33,6 +34,13 @@ function NewProjectPage() {
   });
 
   const set = (k: keyof typeof f, v: string) => setF((p) => ({ ...p, [k]: v }));
+
+  const estimate = useMemo(() => {
+    const a = Number(f.area_m2);
+    if (!a || a <= 0) return 0;
+    return estimateCost(f.project_type, a, Number(f.floors) || 1, f.finish_level);
+  }, [f.project_type, f.area_m2, f.floors, f.finish_level]);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
