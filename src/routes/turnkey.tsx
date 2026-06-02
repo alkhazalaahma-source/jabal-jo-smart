@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { PROJECT_TYPES } from "@/lib/project-types";
 
 export const Route = createFileRoute("/turnkey")({
   head: () => ({
