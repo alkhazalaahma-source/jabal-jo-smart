@@ -78,6 +78,11 @@ function Home() {
                   {t("cta_browse")} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
                 </Button>
               </Link>
+              <Link to="/turnkey/new">
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-bold">
+                  {lang === "ar" ? "ابنِ مشروعك الآن" : "Build Your Project"} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
+                </Button>
+              </Link>
               <Link to="/ai-chat">
                 <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
                   <Sparkles className="me-2 h-5 w-5" /> {t("cta_ai")}
