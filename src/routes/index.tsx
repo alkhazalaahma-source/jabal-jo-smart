@@ -159,18 +159,20 @@ function Home() {
 
       {/* CTA */}
       <section className="container mx-auto px-4 py-20">
-        <div className="bg-hero rounded-3xl p-10 md:p-16 text-white text-center relative overflow-hidden">
-          <div className="absolute inset-0 grid-bg opacity-20" />
+        <div className="bg-card border border-border rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-card">
+          <div className="absolute inset-0 grid-bg opacity-[0.05]" />
           <div className="relative">
-            <Sparkles className="h-12 w-12 mx-auto mb-4 text-orange-grad" />
-            <h2 className="text-3xl md:text-5xl font-black mb-4">
+            <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-accent/10 flex items-center justify-center">
+              <Sparkles className="h-7 w-7 text-accent" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
               {lang === "ar" ? "ابدأ مشروعك مع جبل اليوم" : "Start your project with JABAL today"}
             </h2>
-            <p className="text-white/85 max-w-xl mx-auto mb-8">
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
               {lang === "ar" ? "انضم لآلاف المقاولين والمهندسين الذين يثقون بجبل لتوفير الوقت والمال." : "Join thousands of contractors and engineers who trust JABAL to save time and money."}
             </p>
             <Link to="/auth">
-              <Button size="lg" className="bg-orange-grad text-accent-foreground hover:opacity-90">
+              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl shadow-card">
                 {t("register")} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
               </Button>
             </Link>
