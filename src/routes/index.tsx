@@ -40,66 +40,67 @@ function Home() {
 
   return (
     <Layout>
-      {/* HERO */}
-      <section className="relative bg-hero text-white overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-20" />
-        <div className="container relative mx-auto px-4 py-20 md:py-32">
+      {/* HERO — calm & light */}
+      <section className="relative bg-hero overflow-hidden border-b border-border/60">
+        <div className="absolute inset-0 grid-bg opacity-[0.06]" />
+        <div className="container relative mx-auto px-4 py-14 md:py-24">
           <div className="max-w-3xl">
-            <span className="inline-block bg-orange-grad text-accent-foreground text-xs font-bold px-3 py-1.5 rounded-full mb-5">
+            <span className="inline-flex items-center gap-2 bg-accent/10 text-accent border border-accent/20 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
               {t("brand_tagline")}
             </span>
-            <h1 className="text-4xl md:text-6xl font-black leading-tight">
-              {t("hero_title_1")} <span className="text-orange-grad">{t("hero_title_2")}</span>
+            <h1 className="text-3xl md:text-6xl font-bold leading-[1.2] text-foreground tracking-tight">
+              {t("hero_title_1")} <span className="text-accent">{t("hero_title_2")}</span>
             </h1>
-            <p className="mt-5 text-lg md:text-xl text-white/85 max-w-2xl">{t("hero_sub")}</p>
+            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">{t("hero_sub")}</p>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 window.location.href = `/marketplace?q=${encodeURIComponent(q)}`;
               }}
-              className="mt-8 flex max-w-xl bg-white/10 backdrop-blur rounded-xl p-1.5 gap-1"
+              className="mt-8 flex max-w-xl bg-card border border-border rounded-2xl shadow-card p-1.5 gap-1"
             >
-              <Search className="h-5 w-5 self-center ms-2 text-white/70" />
+              <Search className="h-5 w-5 self-center ms-2 text-muted-foreground" />
               <Input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder={t("search_placeholder")}
-                className="bg-transparent border-0 text-white placeholder:text-white/60 focus-visible:ring-0"
+                className="bg-transparent border-0 focus-visible:ring-0 shadow-none"
               />
-              <Button type="submit" className="bg-orange-grad text-accent-foreground hover:opacity-90">
+              <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl">
                 {lang === "ar" ? "بحث" : "Search"}
               </Button>
             </form>
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/marketplace">
-                <Button size="lg" className="bg-orange-grad text-accent-foreground hover:opacity-90">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl shadow-card">
                   {t("cta_browse")} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
                 </Button>
               </Link>
               <Link to="/turnkey/new">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-bold">
+                <Button size="lg" variant="outline" className="rounded-xl border-border bg-card hover:bg-muted">
                   {lang === "ar" ? "ابنِ مشروعك الآن" : "Build Your Project"} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
                 </Button>
               </Link>
               <Link to="/ai-chat">
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
+                <Button size="lg" variant="ghost" className="rounded-xl text-muted-foreground hover:text-foreground">
                   <Sparkles className="me-2 h-5 w-5" /> {t("cta_ai")}
                 </Button>
               </Link>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
               {[
                 { n: "500+", l: t("stat_suppliers") },
                 { n: "10K+", l: t("stat_products") },
                 { n: "12", l: t("stat_cities") },
-                { n: "98%", l: t("stat_satisfaction") },
+                { n: "98%", l: t("stat_satisfaction"), accent: true },
               ].map((s) => (
-                <div key={s.l}>
-                  <div className="text-3xl md:text-4xl font-black text-orange-grad">{s.n}</div>
-                  <div className="text-sm text-white/70 mt-1">{s.l}</div>
+                <div key={s.l} className="bg-card/70 border border-border/60 rounded-2xl p-4">
+                  <div className={`text-2xl md:text-3xl font-bold ${s.accent ? "text-accent" : "text-foreground"}`}>{s.n}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{s.l}</div>
                 </div>
               ))}
             </div>
@@ -109,7 +110,7 @@ function Home() {
 
       {/* CATEGORIES */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-black mb-8">{t("categories")}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">{t("categories")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {categories.map((c) => (
             <Link
@@ -128,7 +129,7 @@ function Home() {
       {/* FEATURED PRODUCTS */}
       <section className="container mx-auto px-4 py-8">
         <div className="flex items-end justify-between mb-8">
-          <h2 className="text-3xl font-black">{t("featured_products")}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t("featured_products")}</h2>
           <Link to="/marketplace" className="text-accent font-semibold hover:underline">
             {t("view_all")} →
           </Link>
@@ -141,7 +142,7 @@ function Home() {
       {/* WHY JABAL */}
       <section className="bg-steel py-16 mt-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-black text-center mb-12">{t("why_jabal")}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center mb-12">{t("why_jabal")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f) => (
               <div key={f.t} className="bg-card rounded-xl p-6 border shadow-card text-center">
@@ -158,18 +159,20 @@ function Home() {
 
       {/* CTA */}
       <section className="container mx-auto px-4 py-20">
-        <div className="bg-hero rounded-3xl p-10 md:p-16 text-white text-center relative overflow-hidden">
-          <div className="absolute inset-0 grid-bg opacity-20" />
+        <div className="bg-card border border-border rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-card">
+          <div className="absolute inset-0 grid-bg opacity-[0.05]" />
           <div className="relative">
-            <Sparkles className="h-12 w-12 mx-auto mb-4 text-orange-grad" />
-            <h2 className="text-3xl md:text-5xl font-black mb-4">
+            <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-accent/10 flex items-center justify-center">
+              <Sparkles className="h-7 w-7 text-accent" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
               {lang === "ar" ? "ابدأ مشروعك مع جبل اليوم" : "Start your project with JABAL today"}
             </h2>
-            <p className="text-white/85 max-w-xl mx-auto mb-8">
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
               {lang === "ar" ? "انضم لآلاف المقاولين والمهندسين الذين يثقون بجبل لتوفير الوقت والمال." : "Join thousands of contractors and engineers who trust JABAL to save time and money."}
             </p>
             <Link to="/auth">
-              <Button size="lg" className="bg-orange-grad text-accent-foreground hover:opacity-90">
+              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl shadow-card">
                 {t("register")} <ArrowRight className="ms-2 h-5 w-5 rtl:rotate-180" />
               </Button>
             </Link>
