@@ -110,7 +110,7 @@ function Home() {
 
       {/* CATEGORIES */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-black mb-8">{t("categories")}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">{t("categories")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {categories.map((c) => (
             <Link
@@ -129,7 +129,7 @@ function Home() {
       {/* FEATURED PRODUCTS */}
       <section className="container mx-auto px-4 py-8">
         <div className="flex items-end justify-between mb-8">
-          <h2 className="text-3xl font-black">{t("featured_products")}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t("featured_products")}</h2>
           <Link to="/marketplace" className="text-accent font-semibold hover:underline">
             {t("view_all")} →
           </Link>
@@ -142,7 +142,7 @@ function Home() {
       {/* WHY JABAL */}
       <section className="bg-steel py-16 mt-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-black text-center mb-12">{t("why_jabal")}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center mb-12">{t("why_jabal")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f) => (
               <div key={f.t} className="bg-card rounded-xl p-6 border shadow-card text-center">
