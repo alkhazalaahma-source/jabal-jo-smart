@@ -64,7 +64,7 @@ export const chatWithJabalAI = createServerFn({ method: "POST" })
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-2.5-pro",
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...data.messages],
       }),
     });
