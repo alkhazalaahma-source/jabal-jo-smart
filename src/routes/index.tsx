@@ -45,14 +45,15 @@ function Home() {
         <div className="absolute inset-0 grid-bg opacity-[0.06]" />
         <div className="container relative mx-auto px-4 py-14 md:py-24">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 bg-accent/10 text-accent border border-accent/20 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span className="inline-flex items-center gap-2 bg-accent/10 text-accent border border-accent/20 text-xs font-semibold px-3 py-1.5 rounded-full mb-5 animate-fade-in-up">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-soft" />
               {t("brand_tagline")}
             </span>
-            <h1 className="text-3xl md:text-6xl font-bold leading-[1.2] text-foreground tracking-tight">
+            <h1 className="text-3xl md:text-6xl font-bold leading-[1.2] text-foreground tracking-tight animate-fade-in-up delay-75">
               {t("hero_title_1")} <span className="text-accent">{t("hero_title_2")}</span>
             </h1>
-            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">{t("hero_sub")}</p>
+            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed animate-fade-in-up delay-150">{t("hero_sub")}</p>
+
 
             <form
               onSubmit={(e) => {
