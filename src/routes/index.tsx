@@ -113,17 +113,23 @@ function Home() {
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-8">{t("categories")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              to="/marketplace"
-              search={{ category: c.slug } as never}
-              className="group bg-card border rounded-xl p-6 text-center hover:shadow-elegant transition-all hover:-translate-y-1 hover:border-accent"
-            >
-              <div className="text-5xl mb-3">{c.icon ?? "📦"}</div>
-              <div className="font-bold">{lang === "ar" ? c.name_ar : c.name_en}</div>
-            </Link>
-          ))}
+          {categories.length === 0
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="bg-muted/40 border rounded-xl p-6 h-32 animate-pulse-soft" />
+              ))
+            : categories.map((c, i) => (
+                <Link
+                  key={c.id}
+                  to="/marketplace"
+                  search={{ category: c.slug } as never}
+                  className="group bg-card border border-border rounded-xl p-6 text-center hover-lift hover:border-accent animate-fade-in-up"
+                  style={{ animationDelay: `${i * 40}ms` }}
+                >
+                  <div className="text-5xl mb-3 transition-transform group-hover:scale-110">{c.icon ?? "📦"}</div>
+                  <div className="font-bold">{lang === "ar" ? c.name_ar : c.name_en}</div>
+                </Link>
+              ))}
+
         </div>
       </section>
 
