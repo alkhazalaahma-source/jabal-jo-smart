@@ -142,8 +142,17 @@ function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.map((p) => <ProductCard key={p.id} product={p} />)}
+          {products.length === 0
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="bg-muted/40 border rounded-xl h-64 animate-pulse-soft" />
+              ))
+            : products.map((p, i) => (
+                <div key={p.id} className="animate-fade-in-up" style={{ animationDelay: `${i * 50}ms` }}>
+                  <ProductCard product={p} />
+                </div>
+              ))}
         </div>
+
       </section>
 
       {/* WHY JABAL */}
