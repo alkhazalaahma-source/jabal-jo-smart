@@ -44,7 +44,7 @@ export function Footer() {
           <h4 className="font-bold mb-3">{t("contact_us")}</h4>
           <ul className="space-y-2 text-sm">
             <li><a href="tel:+962792931516" className="flex items-center gap-2 hover:text-accent" dir="ltr"><Phone className="h-4 w-4 text-accent" /> +962 79 293 1516</a></li>
-            <li><a href="mailto:jabaljo42@gmail.com" className="flex items-center gap-2 hover:text-accent"><Mail className="h-4 w-4 text-accent" /> jabaljo42@gmail.com</a></li>
+            <li><a href="mailto:jabaljo42@gmail.com" className="flex items-center gap-2 hover:text-accent"><Mail className="h-4 w-4 text-accent" /><span>jabaljo42@gmail.com</span></a></li>
             <li>
               <a href="https://wa.me/962792931516" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-accent">
                 <MessageCircle className="h-4 w-4 text-accent" /> {t("whatsapp")}
