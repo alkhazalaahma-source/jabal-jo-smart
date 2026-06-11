@@ -13,6 +13,10 @@ import { I18nProvider } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { CartProvider } from "@/lib/cart";
 
+import { useEffect } from "react";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { initMonitoring, reportError } from "@/lib/monitoring";
+
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -39,6 +43,7 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
+  reportError(error, { boundary: "route" });
   const router = useRouter();
 
   return (
@@ -120,13 +125,19 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    initMonitoring();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <I18nProvider>
           <CartProvider>
             <TooltipProvider>
-              <Outlet />
+              <ErrorBoundary>
+                <Outlet />
+              </ErrorBoundary>
               <Toaster richColors position="top-center" />
             </TooltipProvider>
           </CartProvider>

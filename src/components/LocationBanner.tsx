@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n";
 
 export function LocationBanner() {
   const { lang } = useI18n();
-  const { status, coords, request } = useGeolocation(false);
+  const { status, coords, request } = useGeolocation(true);
   const [dismissed, setDismissed] = useState(false);
 
   if (dismissed) return null;
