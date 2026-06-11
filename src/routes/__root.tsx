@@ -43,6 +43,7 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
+  reportError(error, { boundary: "route" });
   const router = useRouter();
 
   return (
@@ -124,13 +125,19 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    initMonitoring();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <I18nProvider>
           <CartProvider>
             <TooltipProvider>
-              <Outlet />
+              <ErrorBoundary>
+                <Outlet />
+              </ErrorBoundary>
               <Toaster richColors position="top-center" />
             </TooltipProvider>
           </CartProvider>
