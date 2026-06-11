@@ -13,6 +13,10 @@ import { I18nProvider } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { CartProvider } from "@/lib/cart";
 
+import { useEffect } from "react";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { initMonitoring, reportError } from "@/lib/monitoring";
+
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
