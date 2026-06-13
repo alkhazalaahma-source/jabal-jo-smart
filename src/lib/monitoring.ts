@@ -107,16 +107,20 @@ export function initMonitoring() {
   window.fetch = async (...args) => {
     const start = performance.now();
     const url = typeof args[0] === "string" ? args[0] : (args[0] as Request).url;
+    // Skip monitoring our own reporting endpoint to avoid feedback loops
+    const isMonitoringCall = typeof url === "string" && url.includes("reportClientEvent");
     try {
       const res = await origFetch(...args);
-      const dur = performance.now() - start;
-      if (dur > 1500) reportMetric("slow_fetch", Math.round(dur), { url, status: res.status });
-      if (!res.ok && res.status >= 500) {
-        reportError(new Error(`fetch_${res.status}`), { url });
+      if (!isMonitoringCall) {
+        const dur = performance.now() - start;
+        if (dur > 1500) reportMetric("slow_fetch", Math.round(dur), { url, status: res.status });
+        if (!res.ok && res.status >= 500) {
+          reportError(new Error(`fetch_${res.status}`), { url });
+        }
       }
       return res;
     } catch (err) {
-      reportError(err, { url, kind: "fetch_failed" });
+      if (!isMonitoringCall) reportError(err, { url, kind: "fetch_failed" });
       throw err;
     }
   };
