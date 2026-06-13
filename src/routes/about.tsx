@@ -11,9 +11,6 @@ export const Route = createFileRoute("/about")({
 
 const TEAM = [
   { name_ar: "أحمد كمال", name_en: "Ahmad Kamal", role_ar: "المدير التنفيذي والمؤسس", role_en: "CEO & Founder", bio_ar: "خريج تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "عمر القاضي", name_en: "Omar Al-Qadi", role_ar: "المدير المالي والموارد البشرية", role_en: "CFO & HR Director", bio_ar: "خريج تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "ميار هواري", name_en: "Mayar Hawari", role_ar: "المديرة التقنية", role_en: "CTO", bio_ar: "خريجة تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "رناد خزاعلة", name_en: "Ranad Khazaaleh", role_ar: "مديرة التسويق والمبيعات", role_en: "CMO & Sales Director", bio_ar: "خريجة تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
 ];
 
 function About() {
