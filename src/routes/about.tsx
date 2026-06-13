@@ -11,9 +11,6 @@ export const Route = createFileRoute("/about")({
 
 const TEAM = [
   { name_ar: "أحمد كمال", name_en: "Ahmad Kamal", role_ar: "المدير التنفيذي والمؤسس", role_en: "CEO & Founder", bio_ar: "خريج تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "عمر القاضي", name_en: "Omar Al-Qadi", role_ar: "المدير المالي والموارد البشرية", role_en: "CFO & HR Director", bio_ar: "خريج تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "ميار هواري", name_en: "Mayar Hawari", role_ar: "المديرة التقنية", role_en: "CTO", bio_ar: "خريجة تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
-  { name_ar: "رناد خزاعلة", name_en: "Ranad Khazaaleh", role_ar: "مديرة التسويق والمبيعات", role_en: "CMO & Sales Director", bio_ar: "خريجة تسويق رقمي 2026 — جامعة آل البيت", bio_en: "Digital Marketing Graduate 2026 — Al al-Bayt University" },
 ];
 
 function About() {
@@ -50,7 +47,7 @@ function About() {
           <Users className="h-10 w-10 text-accent mx-auto mb-2" />
           <h2 className="text-3xl font-black">{t("team")}</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid gap-5 max-w-sm mx-auto">
           {TEAM.map((m) => (
             <div key={m.name_en} className="bg-card border rounded-xl p-6 text-center hover:shadow-elegant transition">
               <div className="w-20 h-20 bg-orange-grad rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-black text-accent-foreground">
