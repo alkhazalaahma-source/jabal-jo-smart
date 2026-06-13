@@ -47,7 +47,7 @@ function About() {
           <Users className="h-10 w-10 text-accent mx-auto mb-2" />
           <h2 className="text-3xl font-black">{t("team")}</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid gap-5 max-w-sm mx-auto">
           {TEAM.map((m) => (
             <div key={m.name_en} className="bg-card border rounded-xl p-6 text-center hover:shadow-elegant transition">
               <div className="w-20 h-20 bg-orange-grad rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-black text-accent-foreground">
