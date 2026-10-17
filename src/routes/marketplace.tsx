@@ -10,9 +10,9 @@ import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/marketplace")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    q: typeof s.q === "string" ? s.q : "",
-    category: typeof s.category === "string" ? s.category : "",
+  validateSearch: (s: Record<string, unknown>): { q?: string; category?: string } => ({
+    q: typeof s.q === "string" ? s.q : undefined,
+    category: typeof s.category === "string" ? s.category : undefined,
   }),
   head: () => ({ meta: [{ title: "السوق — JABAL Marketplace" }, { name: "description", content: "تصفح آلاف منتجات البناء بأفضل الأسعار من موردين موثقين في الأردن." }] }),
   component: Marketplace,
@@ -22,7 +22,7 @@ type Cat = { id: string; slug: string; name_ar: string; name_en: string; icon: s
 
 function Marketplace() {
   const { lang, t } = useI18n();
-  const { q: initQ, category: initCat } = Route.useSearch();
+  const { q: initQ = "", category: initCat = "" } = Route.useSearch();
   const [q, setQ] = useState(initQ);
   const [cat, setCat] = useState(initCat);
   const [sort, setSort] = useState("newest");
