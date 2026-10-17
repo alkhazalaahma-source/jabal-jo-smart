@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import logo from "@/assets/jabal-logo.png";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ redirect: typeof s.redirect === "string" ? s.redirect : "/" }),
+  validateSearch: (s: Record<string, unknown>): { redirect?: string } => ({ redirect: typeof s.redirect === "string" && s.redirect.startsWith("/") && !s.redirect.startsWith("//") ? s.redirect : undefined }),
   head: () => ({ meta: [{ title: "تسجيل الدخول — JABAL" }] }),
   component: AuthPage,
 });
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const { lang, t } = useI18n();
   const { user } = useAuth();
-  const { redirect } = Route.useSearch();
+  const { redirect = "/" } = Route.useSearch();
   const nav = useNavigate();
   const [tab, setTab] = useState("login");
   const [loading, setLoading] = useState(false);

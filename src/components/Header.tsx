@@ -75,6 +75,7 @@ export function Header() {
                 <Button variant="ghost" size="icon"><User className="h-5 w-5" /></Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => router.navigate({ to: "/dashboard" })}>{lang === "ar" ? "لوحتي" : "Dashboard"}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/orders" })}>{t("nav_orders")}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/referral" })}>{lang === "ar" ? "ادعُ صديق" : "Refer a Friend"}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.navigate({ to: "/profile" })}>{t("nav_profile")}</DropdownMenuItem>
