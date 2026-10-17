@@ -25,6 +25,7 @@ import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as InspectionRouteImport } from './routes/inspection'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ComplaintsRouteImport } from './routes/complaints'
 import { Route as CompaniesRouteImport } from './routes/companies'
@@ -120,6 +121,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/companies': typeof CompaniesRoute
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
@@ -233,6 +240,7 @@ export interface FileRoutesByTo {
   '/companies': typeof CompaniesRoute
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/companies': typeof CompaniesRoute
   '/complaints': typeof ComplaintsRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/inspection': typeof InspectionRoute
   '/marketplace': typeof MarketplaceRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/companies'
     | '/complaints'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/inspection'
     | '/marketplace'
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/companies'
     | '/complaints'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/inspection'
     | '/marketplace'
@@ -364,6 +375,7 @@ export interface FileRouteTypes {
     | '/companies'
     | '/complaints'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/inspection'
     | '/marketplace'
@@ -397,6 +409,7 @@ export interface RootRouteChildren {
   CompaniesRoute: typeof CompaniesRoute
   ComplaintsRoute: typeof ComplaintsRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
   InspectionRoute: typeof InspectionRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -528,6 +541,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -667,6 +687,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompaniesRoute: CompaniesRoute,
   ComplaintsRoute: ComplaintsRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
   InspectionRoute: InspectionRoute,
   MarketplaceRoute: MarketplaceRoute,
