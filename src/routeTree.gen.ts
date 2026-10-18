@@ -35,6 +35,7 @@ import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as SuppliersRouteImport } from './routes/suppliers'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TurnkeyRouteImport } from './routes/turnkey'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as OrdersIdRouteImport } from './routes/orders.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as TurnkeyIdRouteImport } from './routes/turnkey.$id'
@@ -171,6 +172,11 @@ const TurnkeyRoute = TurnkeyRouteImport.update({
   path: '/turnkey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrdersIdRoute = OrdersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -224,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByTo {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/suppliers': typeof SuppliersRoute
   '/terms': typeof TermsRoute
   '/turnkey': typeof TurnkeyRouteWithChildren
+  '/api/chat': typeof ApiChatRoute
   '/orders/$id': typeof OrdersIdRoute
   '/product/$id': typeof ProductIdRoute
   '/turnkey/$id': typeof TurnkeyIdRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/api/chat'
     | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/api/chat'
     | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/terms'
     | '/turnkey'
+    | '/api/chat'
     | '/orders/$id'
     | '/product/$id'
     | '/turnkey/$id'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   SuppliersRoute: typeof SuppliersRoute
   TermsRoute: typeof TermsRoute
   TurnkeyRoute: typeof TurnkeyRouteWithChildren
+  ApiChatRoute: typeof ApiChatRoute
   ProductIdRoute: typeof ProductIdRoute
 }
 
@@ -613,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TurnkeyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orders/$id': {
       id: '/orders/$id'
       path: '/$id'
@@ -704,6 +724,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuppliersRoute: SuppliersRoute,
   TermsRoute: TermsRoute,
   TurnkeyRoute: TurnkeyRouteWithChildren,
+  ApiChatRoute: ApiChatRoute,
   ProductIdRoute: ProductIdRoute,
 }
 export const routeTree = rootRouteImport
